@@ -14,7 +14,8 @@ class CreateBoard:
     #this is called twice for each player
     pass
 
-class AssignShips: #class that handles 1b; assigning the correct number of ships to a user
+class AssignShips: # I, Brynn, can do this class?
+    #class that handles 1b; assigning the correct number of ships to a user
     def __init__(self, player_num, num_ships):
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
         self.num_ships = num_ships #this is provided by the player (must be numbers 1-5 inclusively)
@@ -24,7 +25,7 @@ class AssignShips: #class that handles 1b; assigning the correct number of ships
              new_num = input("Invalid number of ships. Select a new number: ") #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
 
-class ShipTypes:
+class ShipTypes: #brynn can also do this class?
     #class that is determined by the combination of the num_ships and player_num of the AssignShip class
     def __init__(self, num_ships):
         self.ship_types = [] #empty list to hold the sizes of the ships
