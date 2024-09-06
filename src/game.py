@@ -8,11 +8,33 @@ Output: A game of battleship.
 Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Johnson
 Creation date: 9/4/2024
 '''
+import pygame
+import sys
+from gui import Board, WHITE
 
-class CreateBoard: 
-    #class that does 1a in the requirements (build initial game board)
-    #this is called twice for each player
-    pass
+WIDTH, HEIGHT = 660, 660 # set screen dimensions
+
+pygame.init()
+running = True # this is the 'game loop' that will be True until the game is closed/terminated
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT)) # create screen
+pygame.display.set_caption("Battleship")
+board = Board(WIDTH, HEIGHT) # create board
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    screen.fill(WHITE)
+    board.draw(screen)
+    
+    pygame.display.update()
+
+pygame.quit()
+
+
 
 class AssignShips: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
