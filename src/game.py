@@ -12,29 +12,22 @@ import pygame
 import sys
 from gui import Board, WHITE
 
-WIDTH, HEIGHT = 660, 660 # set screen dimensions
-
-pygame.init()
-running = True # this is the 'game loop' that will be True until the game is closed/terminated
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT)) # create screen
-pygame.display.set_caption("Battleship")
-board = Board(WIDTH, HEIGHT) # create board
-
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-    screen.fill(WHITE)
-    board.draw(screen)
+class Game:
+    def __init__(self):
+        self.player1_board = Board(WIDTH - 150, HEIGHT, board_name="Player 1")
+        self.player2_board = Board(WIDTH - 150, HEIGHT, board_name="Player 2")
     
-    pygame.display.update()
+    def draw_boards(self):
+        self.player1_board.draw()
+        self.player2_board.draw()
+        
+        screen.blit(self.player1_board.surface, (0,0))
+        screen.blit(self.player2_board.surface, ((WIDTH + 50) // 2, 0)) 
 
-pygame.quit()
-
-
+    def update(self):
+        screen.fill(WHITE)
+        self.draw_boards()
+        pygame.display.update()
 
 class AssignShips: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
@@ -96,3 +89,24 @@ class DisplayBoard:
 class GameOver:
     #display the correct player as the winner if they sunk all other ships
     pass
+
+if __name__ == '__main__':
+    WIDTH, HEIGHT = 1150, 600 # set screen dimensions
+
+    pygame.init()
+    running = True # this is the 'game loop' that will be True until the game is closed/terminated
+
+    screen = pygame.display.set_mode((WIDTH, HEIGHT)) # create screen
+    pygame.display.set_caption("Battleship")
+
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        game = Game()
+        game.update()
+
+    pygame.quit()
