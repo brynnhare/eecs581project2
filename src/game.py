@@ -28,6 +28,7 @@ class Game:
         player2_board.draw()
 
         ship = player2_ships.get_1x4("B", 5, orientation="horizontal")  # my example: ship on Player 2's board
+        # note that this returns a list of tuples representing the squares the ship occupies
         player2_ships.remove_ship(ship)  # remove ship from Player 2's board
 
         screen.blit(player1_board.surface, (0,0))
