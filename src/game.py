@@ -10,22 +10,31 @@ Creation date: 9/4/2024
 '''
 import pygame
 import sys
-from gui import Board, WHITE
+from gui import Board, Colors, Ships
+
+WIDTH, HEIGHT = 1150, 600 # set screen dimensions
+
+player1_board = Board(WIDTH - 150, HEIGHT, board_name="Player 1") # create the board for Player 1
+player2_board = Board(WIDTH - 150, HEIGHT, board_name="Player 2") # create the board for Player 2
+player1_ships = Ships(player1_board.surface, player1_board.square_size) # represents the available ships for Player 1
+player2_ships = Ships(player2_board.surface, player2_board.square_size) # represents the available ships for Player 2
 
 class Game:
     def __init__(self):
-        self.player1_board = Board(WIDTH - 150, HEIGHT, board_name="Player 1")
-        self.player2_board = Board(WIDTH - 150, HEIGHT, board_name="Player 2")
+        pass
     
     def draw_boards(self):
-        self.player1_board.draw()
-        self.player2_board.draw()
-        
-        screen.blit(self.player1_board.surface, (0,0))
-        screen.blit(self.player2_board.surface, ((WIDTH + 50) // 2, 0)) 
+        player1_board.draw()
+        player2_board.draw()
+
+        ship = player2_ships.get_1x4("B", 5, orientation="horizontal")  # my example: ship on Player 2's board
+        player2_ships.remove_ship(ship)  # remove ship from Player 2's board
+
+        screen.blit(player1_board.surface, (0,0))
+        screen.blit(player2_board.surface, ((WIDTH + 50) // 2, 0)) 
 
     def update(self):
-        screen.fill(WHITE)
+        screen.fill(Colors().get_white())
         self.draw_boards()
         pygame.display.update()
 
@@ -91,8 +100,6 @@ class GameOver:
     pass
 
 if __name__ == '__main__':
-    WIDTH, HEIGHT = 1150, 600 # set screen dimensions
-
     pygame.init()
     running = True # this is the 'game loop' that will be True until the game is closed/terminated
 
