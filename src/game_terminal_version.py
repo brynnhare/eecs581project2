@@ -48,11 +48,13 @@ class Board: # Nora can do this
 
     def display_board(self):
         # Display columns denoted A-J
+        print()
         print(" ".join(chr(ord('A') + i) for i in range(10)))
 
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
             print(" ".join(row) + f" {i + 1}")
+        print()
 
     def is_empty(self):
         # Check if spot is free
