@@ -32,10 +32,29 @@ import sys
     #     self.draw_boards()
     #     pygame.display.update()
 
-class Board: 
+class Board: # Nora can do this 
     def __init__(self, player_num):
         self.player_num = player_num
-        self.board = []
+        self.board = [["~" for _ in range(10)] for _ in range(10)]
+        self.map = [] # keep track of coordinates?
+
+        # Ship: O
+        # Ship hit: X
+        # Ship sunk: *
+        # Open spot: ~
+
+    def display_board(self):
+        # Display columns denoted A-J
+        print(" ".join(chr(ord('A') + i) for i in range(10)))
+
+        # Display rows denoted 1-10
+        for i, row in enumerate(self.board):
+            print(" ".join(row) + f" {i + 1}")
+
+    def is_empty(self):
+        # Check if spot is free
+        pass
+
 
 class AssignShips: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
