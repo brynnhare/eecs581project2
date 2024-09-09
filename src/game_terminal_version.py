@@ -32,7 +32,7 @@ import sys
     #     self.draw_boards()
     #     pygame.display.update()
 
-class BuildBoard: 
+class Board: 
     pass
 
 class AssignShips: # I, Brynn, can do this class?
