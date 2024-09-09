@@ -33,7 +33,9 @@ import sys
     #     pygame.display.update()
 
 class Board: 
-    pass
+    def __init__(self, player_num):
+        self.player_num = player_num
+        self.board = []
 
 class AssignShips: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
