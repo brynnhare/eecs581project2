@@ -11,6 +11,9 @@ Creation date: 9/4/2024
 
 import sys
 
+player1 = 1
+player2 = 2
+
 
 # class Game:
     # def __init__(self):
@@ -32,27 +35,43 @@ import sys
     #     self.draw_boards()
     #     pygame.display.update()
 
-class Board: 
+class Board: # Nora can do this 
     def __init__(self, player_num):
         self.player_num = player_num
-        self.board = []
+        self.board = [["~" for _ in range(10)] for _ in range(10)]
+        self.map = [] # keep track of coordinates?
 
-class AssignShips: # I, Brynn, can do this class?
+        # Ship: O
+        # Ship hit: X
+        # Ship sunk: *
+        # Open spot: ~
+
+    def display_board(self):
+        # Display columns denoted A-J
+        print(" ".join(chr(ord('A') + i) for i in range(10)))
+
+        # Display rows denoted 1-10
+        for i, row in enumerate(self.board):
+            print(" ".join(row) + f" {i + 1}")
+
+    def is_empty(self):
+        # Check if spot is free
+        pass
+
+
+class Ships: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
-    def __init__(self, player_num, num_ships):
+    def __init__(self, player_num):
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
-        self.num_ships = num_ships #this is provided by the player (must be numbers 1-5 inclusively)
+        self.num_ships = 0 #this is provided by the player later (must be numbers 1-5 inclusively)
+        self.ship_types = [] #empty list to hold the sizes of the ships
 
     def choose_ships(self): #the player must select the number of ships they want to have
+        num_ships = input("Choose the number of ships for your board (1-5): ")
+        self.num_ships = num_ships
         while (1 > self.num_ships > 5): #checking for invalid ship values
              new_num = input("Invalid number of ships. Select a new number: ") #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
-
-class ShipTypes: #brynn can also do this class?
-    #class that is determined by the combination of the num_ships and player_num of the AssignShip class
-    def __init__(self, num_ships):
-        self.ship_types = [] #empty list to hold the sizes of the ships
-        self.num_ships = num_ships #the number of ships that the player chose 
 
     def load_types(self): #this forms the list with the sizes of the ships
         i = 1 #initializing for the while loop
@@ -60,11 +79,10 @@ class ShipTypes: #brynn can also do this class?
             self.ship_types.append([1, i]) #append to the list. [1, 1] represents 1 x 1. [1, 2] represents 1 x 2...etc.
             i += 1 #increase the while loop
 
-class ShipPlacement: 
-    #class to control where the ships are placed on the board
-    def __init__(self, player_num, ship_types):
-        self.player_num = player_num
-        self.ship_types = ship_types
+    def place(self): #place the ships on the board
+        pass
+
+    # def orientation()
 
     #need to have a function that allows for the players to turn the pieces (swap the x and y values of the list?)
     #need to connect to the gameboard class to "remember" where the pieces are located
@@ -109,4 +127,34 @@ class GameOver:
     pass
 
 if __name__ == '__main__':
-    pass
+    #start the game
+    board1 = Board(player1) #board1 represents player 1's board
+    board2 = Board(player2) #board2 represents player 2's board
+    ships1 = Ships(player1) #create an ships class for player 1
+    ships2 = Ships(player2) #create an ships class for player 2
+    switchcurrent1 = SwitchPlayers(player1) #class to switch while its player 1 turn
+    switchcurrent2 = SwitchPlayers(player2) #class to switch while its player 2 turn
+    switchcurrent1.begin_turn() #prompt player 1 to begin first turn
+    ships1.choose_ships() #prompt player 1 with the
+    ships1.load_types() #create the list of ships for player 1
+    board1.display() #display the blank board
+    for ship in ships1.ship_types:
+        ships1.place()
+        board1.display()
+    switchcurrent1.end_turn()
+    switchcurrent2.begin_turn()
+    ships2.choose_ships() #prompt player 2 with the
+    ships2.load_types() #create the list of ships for player 2
+    board2.display() #display the blank board
+    for ship in ships2.ship_types:
+        ships2.place()
+        board2.display()
+    switchcurrent2.end_turn()
+    
+
+
+
+
+
+    
+    
