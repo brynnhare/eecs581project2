@@ -11,6 +11,9 @@ Creation date: 9/4/2024
 
 import sys
 
+player1 = 1
+player2 = 2
+
 
 # class Game:
     # def __init__(self):
@@ -42,17 +45,12 @@ class AssignShips: # I, Brynn, can do this class?
     def __init__(self, player_num, num_ships):
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
         self.num_ships = num_ships #this is provided by the player (must be numbers 1-5 inclusively)
+        self.ship_types = [] #empty list to hold the sizes of the ships
 
     def choose_ships(self): #the player must select the number of ships they want to have
         while (1 > self.num_ships > 5): #checking for invalid ship values
              new_num = input("Invalid number of ships. Select a new number: ") #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
-
-class ShipTypes: #brynn can also do this class?
-    #class that is determined by the combination of the num_ships and player_num of the AssignShip class
-    def __init__(self, num_ships):
-        self.ship_types = [] #empty list to hold the sizes of the ships
-        self.num_ships = num_ships #the number of ships that the player chose 
 
     def load_types(self): #this forms the list with the sizes of the ships
         i = 1 #initializing for the while loop
@@ -65,6 +63,8 @@ class ShipPlacement:
     def __init__(self, player_num, ship_types):
         self.player_num = player_num
         self.ship_types = ship_types
+
+    # def orientation()
 
     #need to have a function that allows for the players to turn the pieces (swap the x and y values of the list?)
     #need to connect to the gameboard class to "remember" where the pieces are located
@@ -99,4 +99,7 @@ class GameOver:
     pass
 
 if __name__ == '__main__':
-    pass
+    #start the game
+    board1 = Board(player1) #board1 represents player 1's board
+    board2 = Board(player2) #board2 represents player 2's board
+    
