@@ -12,25 +12,28 @@ Creation date: 9/4/2024
 import sys
 
 
-class Game:
-    def __init__(self):
-        pass
+# class Game:
+    # def __init__(self):
+    #     pass
     
-    def draw_boards(self):
-        player1_board.draw()
-        player2_board.draw()
+    # def draw_boards(self):
+    #     player1_board.draw()
+    #     player2_board.draw()
 
-        ship = player2_ships.get_1x4("B", 5, orientation="horizontal")  # my example: ship on Player 2's board
-        # note that this returns a list of tuples representing the squares the ship occupies
-        player2_ships.remove_ship(ship)  # remove ship from Player 2's board
+    #     ship = player2_ships.get_1x4("B", 5, orientation="horizontal")  # my example: ship on Player 2's board
+    #     # note that this returns a list of tuples representing the squares the ship occupies
+    #     player2_ships.remove_ship(ship)  # remove ship from Player 2's board
 
-        screen.blit(player1_board.surface, (0,0))
-        screen.blit(player2_board.surface, ((WIDTH + 50) // 2, 0)) 
+    #     screen.blit(player1_board.surface, (0,0))
+    #     screen.blit(player2_board.surface, ((WIDTH + 50) // 2, 0)) 
 
-    def update(self):
-        screen.fill(Colors().get_white())
-        self.draw_boards()
-        pygame.display.update()
+    # def update(self):
+    #     screen.fill(Colors().get_white())
+    #     self.draw_boards()
+    #     pygame.display.update()
+
+class BuildBoard: 
+    pass
 
 class AssignShips: # I, Brynn, can do this class?
     #class that handles 1b; assigning the correct number of ships to a user
