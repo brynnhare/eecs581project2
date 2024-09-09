@@ -96,8 +96,8 @@ class Fire:
 
 class SwitchPlayers:
     #this can be used anytime to move from player 1 to 2 
-    def __init__(self, player_num):
-        self.player_num = player_num
+    def __init__(self):
+        self.player_num = 1 #initialized by starting with player 1
     
     def change(self):
         if self.player_num == 1:
@@ -112,7 +112,8 @@ class SwitchPlayers:
     def end_turn(self):
         print("End Player", self.player_num,"'s Turn (Press Enter)")
         input()
-    pass
+        self.change()
+
 
 class DestroyShip: 
     #needs to keep track of the ship_types list and the board, if a ship is gone it sunk
@@ -134,28 +135,28 @@ if __name__ == '__main__':
     board2 = Board(player2) #board2 represents player 2's board
     ships1 = Ships(player1) #create an ships class for player 1
     ships2 = Ships(player2) #create an ships class for player 2
-    switchcurrent1 = SwitchPlayers(player1) #class to switch while its player 1 turn
-    switchcurrent2 = SwitchPlayers(player2) #class to switch while its player 2 turn
+    currentplayer = SwitchPlayers() #object that controls who the current player is
 
     #begin the game setup for player1
-    switchcurrent1.begin_turn() #prompt player 1 to begin first turn
+    currentplayer.begin_turn() #prompt player 1 to begin first turn 
     ships1.choose_ships() #prompt player 1 with the number of ships to select
     ships1.load_types() #create the list of ships for player 1
     board1.display_board() #display the blank board
     for ship in ships1.ship_types: #depending on the number of ships picked
         ships1.place() #place the ships
         board1.display_board() #display the current state of the board after each ship placement
-    switchcurrent1.end_turn() #confirm the end of player 1's setup turn
+    currentplayer.end_turn() #confirm the end of player 1's setup turn and make player 2 the new current player
+
 
     #begin the game setup for player2
-    switchcurrent2.begin_turn() #prompt player 2 to begin first turn
+    currentplayer.begin_turn() #prompt play 2 to being first setup turn
     ships2.choose_ships() #prompt player 2 with the number of ships to select
     ships2.load_types() #create the list of ships for player 2
     board2.display_board() #display the blank board
     for ship in ships2.ship_types: #depending on the number of ships picked
         ships2.place() #place the ships
         board2.display_board() #display the current state of the board after each ship placement
-    switchcurrent2.end_turn() #confirm the end of player 2's setup turn
+    currentplayer.end_turn() #end player 2's setup turn and make the current player player 1
     
 
 
