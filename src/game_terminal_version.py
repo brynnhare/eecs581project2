@@ -48,13 +48,13 @@ class Board: # Nora can do this
 
     def display_board(self):
         # Display columns denoted A-J
-        print()
+        print() #add a leading space for the board
         print(" ".join(chr(ord('A') + i) for i in range(10)))
 
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
             print(" ".join(row) + f" {i + 1}")
-        print()
+        print() #add a trailing space for the board
 
     def is_empty(self):
         # Check if spot is free
@@ -129,29 +129,33 @@ class GameOver:
     pass
 
 if __name__ == '__main__':
-    #start the game
+    #start the game and initialize the boards, ships, and players
     board1 = Board(player1) #board1 represents player 1's board
     board2 = Board(player2) #board2 represents player 2's board
     ships1 = Ships(player1) #create an ships class for player 1
     ships2 = Ships(player2) #create an ships class for player 2
     switchcurrent1 = SwitchPlayers(player1) #class to switch while its player 1 turn
     switchcurrent2 = SwitchPlayers(player2) #class to switch while its player 2 turn
+
+    #begin the game setup for player1
     switchcurrent1.begin_turn() #prompt player 1 to begin first turn
-    ships1.choose_ships() #prompt player 1 with the
+    ships1.choose_ships() #prompt player 1 with the number of ships to select
     ships1.load_types() #create the list of ships for player 1
     board1.display_board() #display the blank board
-    for ship in ships1.ship_types:
-        ships1.place()
-        board1.display_board()
-    switchcurrent1.end_turn()
-    switchcurrent2.begin_turn()
-    ships2.choose_ships() #prompt player 2 with the
+    for ship in ships1.ship_types: #depending on the number of ships picked
+        ships1.place() #place the ships
+        board1.display_board() #display the current state of the board after each ship placement
+    switchcurrent1.end_turn() #confirm the end of player 1's setup turn
+
+    #begin the game setup for player2
+    switchcurrent2.begin_turn() #prompt player 2 to begin first turn
+    ships2.choose_ships() #prompt player 2 with the number of ships to select
     ships2.load_types() #create the list of ships for player 2
     board2.display_board() #display the blank board
-    for ship in ships2.ship_types:
-        ships2.place()
-        board2.display_board()
-    switchcurrent2.end_turn()
+    for ship in ships2.ship_types: #depending on the number of ships picked
+        ships2.place() #place the ships
+        board2.display_board() #display the current state of the board after each ship placement
+    switchcurrent2.end_turn() #confirm the end of player 2's setup turn
     
 
 
