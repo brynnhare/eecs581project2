@@ -67,10 +67,10 @@ class Ships: # I, Brynn, can do this class?
         self.ship_types = [] #empty list to hold the sizes of the ships
 
     def choose_ships(self): #the player must select the number of ships they want to have
-        num_ships = input("Choose the number of ships for your board (1-5): ")
+        num_ships = int(input("Choose the number of ships for your board (1-5): "))
         self.num_ships = num_ships
         while (1 > self.num_ships > 5): #checking for invalid ship values
-             new_num = input("Invalid number of ships. Select a new number: ") #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
+             new_num = int(input("Invalid number of ships. Select a new number: ")) #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
 
     def load_types(self): #this forms the list with the sizes of the ships
