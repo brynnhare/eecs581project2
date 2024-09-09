@@ -84,6 +84,15 @@ class SwitchPlayers:
             self.player_num = 2
         else: 
             self.player_num == 1
+            
+    def begin_turn(self):
+        print("Begin Player", self.player_num,"'s Turn (Press Enter)") #Begins player turn waits till theres an input
+        input()
+        
+    def end_turn(self):
+        print("End Player", self.player_num,"'s Turn (Press Enter)")
+        input()
+    pass
 
 class DestroyShip: 
     #needs to keep track of the ship_types list and the board, if a ship is gone it sunk
@@ -95,6 +104,7 @@ class DisplayBoard:
     pass
 
 class GameOver:
+    #Change to function
     #display the correct player as the winner if they sunk all other ships
     pass
 
