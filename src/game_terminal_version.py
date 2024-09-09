@@ -96,6 +96,7 @@ class Fire:
 
 class SwitchPlayers:
     #this can be used anytime to move from player 1 to 2 
+    #the main purpose of this class is to give the players a warning that a turn will switch. This prevents the opposing player's board from displaying, spoiling the secrecy of the game
     def __init__(self):
         self.player_num = 1 #initialized by starting with player 1
     
@@ -107,12 +108,12 @@ class SwitchPlayers:
             
     def begin_turn(self):
         print("Begin Player", self.player_num,"'s Turn (Press Enter)") #Begins player turn waits till theres an input
-        input()
+        input() #require an enter to confirm the start of a turn
         
     def end_turn(self):
-        print("End Player", self.player_num,"'s Turn (Press Enter)")
-        input()
-        self.change()
+        print("End Player", self.player_num,"'s Turn (Press Enter)") #display that the turn is ending
+        input() #require an enter to confirm ending a turn
+        self.change() #switch players after the confirmation of a turn ending
 
 
 class DestroyShip: 
