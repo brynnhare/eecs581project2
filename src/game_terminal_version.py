@@ -127,18 +127,18 @@ if __name__ == '__main__':
     switchcurrent1.begin_turn() #prompt player 1 to begin first turn
     ships1.choose_ships() #prompt player 1 with the
     ships1.load_types() #create the list of ships for player 1
-    board1.display() #display the blank board
+    board1.display_board() #display the blank board
     for ship in ships1.ship_types:
         ships1.place()
-        board1.display()
+        board1.display_board()
     switchcurrent1.end_turn()
     switchcurrent2.begin_turn()
     ships2.choose_ships() #prompt player 2 with the
     ships2.load_types() #create the list of ships for player 2
-    board2.display() #display the blank board
+    board2.display_board() #display the blank board
     for ship in ships2.ship_types:
         ships2.place()
-        board2.display()
+        board2.display_board()
     switchcurrent2.end_turn()
     
 
