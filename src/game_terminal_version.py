@@ -81,7 +81,10 @@ class Board: # Nora can do this
             orientation = orientation_input.lower() #make the user input lowercase
         location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
         location = list(location) #store as an array 
-        location[1]= int(location[1])
+        if len(location) == 3: 
+            location[1] = 10
+        else: 
+            location[1]= int(location[1])
         if ship[0] == 1: #horizontal?
             for i in range(ship[1]): # add a mark for each of the ship units
                 self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
