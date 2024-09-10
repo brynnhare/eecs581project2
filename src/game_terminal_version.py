@@ -45,6 +45,7 @@ class Board: # Nora can do this
         # Ship hit: X
         # Ship sunk: *
         # Open spot: ~
+        # Missfire: .
 
     def display_board(self):
         # Display columns denoted A-J
@@ -56,9 +57,38 @@ class Board: # Nora can do this
             print(" ".join(row) + f" {i + 1}")
         print() #add a trailing space for the board
 
+    def display_opponent_board(self):
+        # To display the opponent's board, only showing the sunk ships (replace unsunk ships with '~')
+        # Display columns denoted A-J
+        print()  # Add a leading space for the board
+        print("  " + " ".join(chr(ord('A') + i) for i in range(10)))  # Column labels A-J with space before them
+        
+        # Display rows denoted 1-10
+        for i, row in enumerate(self.board):
+            # Replace non-sunk ships with '~'
+            display_row = ['~' if cell == 'O' else cell for cell in row]
+            # Print the row with the row number
+            print(f"{i + 1:2} " + " ".join(display_row))  # Row number with space and row content
+            
+        print()  # Add a trailing space for the board
+
+
     def is_empty(self):
         # Check if spot is free
         pass
+
+    def fire(self):
+        #make guess, check if guess is valid and then update board
+        # return 0 for miss, 1 for hit, and 2 for a sink
+        pass
+
+    def game_over(self):
+        # return true if the board has no more unsunk ships, false otherwise
+        for rows in self.board:
+            for space in rows:
+                if space == O:
+                    return false
+        return true
 
 
 class Ships: # I, Brynn, can do this class?
@@ -132,8 +162,9 @@ class GameOver:
 
 if __name__ == '__main__':
     #start the game and initialize the boards, ships, and players
-    board1 = Board(player1) #board1 represents player 1's board
-    board2 = Board(player2) #board2 represents player 2's board
+    boards = [Board(player1), Board(player2)] # store boards in an array to access easier
+    # board1 = Board(player1) #board1 represents player 1's board
+    # board2 = Board(player2) #board2 represents player 2's board
     ships1 = Ships(player1) #create an ships class for player 1
     ships2 = Ships(player2) #create an ships class for player 2
     currentplayer = SwitchPlayers() #object that controls who the current player is
@@ -142,10 +173,10 @@ if __name__ == '__main__':
     currentplayer.begin_turn() #prompt player 1 to begin first turn 
     ships1.choose_ships() #prompt player 1 with the number of ships to select
     ships1.load_types() #create the list of ships for player 1
-    board1.display_board() #display the blank board
+    boards[0].display_board() #display the blank board
     for ship in ships1.ship_types: #depending on the number of ships picked
         ships1.place() #place the ships
-        board1.display_board() #display the current state of the board after each ship placement
+        boards[0].display_board() #display the current state of the board after each ship placement
     currentplayer.end_turn() #confirm the end of player 1's setup turn and make player 2 the new current player
 
 
@@ -153,11 +184,38 @@ if __name__ == '__main__':
     currentplayer.begin_turn() #prompt play 2 to being first setup turn
     ships2.choose_ships() #prompt player 2 with the number of ships to select
     ships2.load_types() #create the list of ships for player 2
-    board2.display_board() #display the blank board
+    boards[1].display_board() #display the blank board
     for ship in ships2.ship_types: #depending on the number of ships picked
         ships2.place() #place the ships
-        board2.display_board() #display the current state of the board after each ship placement
+        boards[1].display_board() #display the current state of the board after each ship placement
     currentplayer.end_turn() #end player 2's setup turn and make the current player player 1
+
+    # main game loop to be repeated until there is a winner
+    while True:
+        currentplayer.begin_turn() # start the next turn
+        currentboard = currentplayer.player_num # keep track of which board we are looking at
+        if currentboard == 0: # also keep track of the opponents board
+            oponentboard = 1
+        else:
+            opponentboard = 0
+        boards[currentboard].display_board() # display their own board to see what opponent has hit
+        player_continue = True # boolean to keep track of if the current player gets to keep guessing
+        while player_continue == True: 
+            boards[opponentboard].display_opponent_board() # display their opponents board
+            guess_coordinate = input("Input the coordinate you want to fire at") # take in input as string, should add error detection
+            fire = boards[opponentboard].fire() # fire and store output
+            if fire == 0: # fire and if output is 0 its a miss
+                print("MISS")
+                boards[opponentboard].display_opponent_board() # after a miss display board
+                player_continue == False # break loop for next player
+                currentplayer.end_turn() #end turn
+            elif fire == 1:
+                print("HIT") # if hit, continue in loop
+            else:
+                print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
+
+
+        
     
 
 
