@@ -79,12 +79,17 @@ class Board: # Nora can do this
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
             orientation = orientation_input.lower() #make the user input lowercase
-        location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
-        location = list(location) #store as an array 
-        if len(location) == 3: 
-            location[1] = 10
-        else: 
-            location[1]= int(location[1])
+        invalid_location = True
+        while invalid_location:
+            location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
+            location = list(location) #store as an array 
+            if len(location) == 3: 
+                location[1] = 10
+            else: 
+                location[1]= int(location[1])
+            location[0] = location[0].lower()
+            if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)):
+                invalid_location = False
         if ship[0] == 1: #horizontal?
             for i in range(ship[1]): # add a mark for each of the ship units
                 self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
