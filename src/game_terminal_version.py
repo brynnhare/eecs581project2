@@ -108,9 +108,7 @@ class Board: # Nora can do this
             for i in range(ship[0]): # add a mark for each of the ship units
                 self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                 location[1] = location[1]+1
-                
-
-
+    
     def is_empty(self):
         # Check if spot is free
         pass
@@ -196,7 +194,7 @@ class SwitchPlayers:
         if self.player_num == 1:
             self.player_num = 2
         else: 
-            self.player_num == 1
+            self.player_num = 1
             
     def begin_turn(self):
         print("Begin Player", self.player_num,"'s Turn (Press Enter)") #Begins player turn waits till theres an input
@@ -260,7 +258,7 @@ if __name__ == '__main__':
         currentplayer.begin_turn() # start the next turn
         currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
         if currentboard == 0: # also keep track of the opponents board
-            oponentboard = 1
+            opponentboard = 1
         else:
             opponentboard = 0
         boards[currentboard].display_board() # display their own board to see what opponent has hit
@@ -276,11 +274,9 @@ if __name__ == '__main__':
                 currentplayer.end_turn() #end turn
             elif fire == 1:
                 print("HIT") # if hit, continue in loop
-                if boards[opponentboard].game_over: # check if theres any more ships on the boards
-                    gameOver = True
             else:
                 print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
-                if boards[opponentboard].game_over:
+                if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True
                     break
