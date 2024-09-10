@@ -108,9 +108,23 @@ class Board: # Nora can do this
         # Check if spot is free
         pass
 
-    def fire(self):
+    def fire(self, guess_coordinate):
         #make guess, check if guess is valid and then update board
         # return 0 for miss, 1 for hit, and 2 for a sink
+        guess_coordinate = list(guess_coordinate) # store as list
+        guess_coordinate[1] = int(guess_coordinate[1])
+        target_value = self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97]
+        if isinstance(target_value, int): # is a ship)
+            self.ships[target_value-1] = self.ships[target_value-1] -1 # if so decrement for a hit
+            self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97] = "X" #mark board with an X
+            if self.ships[target_value-1] == 0: # ship is sunk
+                return 2
+            else:
+                return 1 # hit but no sink
+        else:
+            self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97] = "." #mark board with a . 
+            return 0
+
         pass
 
     def game_over(self):
@@ -246,7 +260,7 @@ if __name__ == '__main__':
         while player_continue == True: 
             boards[opponentboard].display_opponent_board() # display their opponents board
             guess_coordinate = input("Input the coordinate you want to fire at ") # take in input as string, should add error detection
-            fire = boards[opponentboard].fire() # fire and store output
+            fire = boards[opponentboard].fire(guess_coordinate) # fire and store output
             if fire == 0: # fire and if output is 0 its a miss
                 print("MISS")
                 boards[opponentboard].display_opponent_board() # after a miss display board
