@@ -72,6 +72,22 @@ class Board: # Nora can do this
             
         print()  # Add a trailing space for the board
 
+    def place_ships(self, ship): # ship needs to be an array of ints
+        #add the ships into the board
+        # ship will be a size array(ex [1,2])
+        location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
+        location = list(location) #store as an array 
+        location[1]= int(location[1])
+        if ship[0] == 1: #horizontal?
+            for i in range(ship[1]): # add a mark for each of the ship units
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
+                location[0] = chr(ord(location[0]) + 1)
+        else: #vertical?
+            for i in range(ship[0]): # add a mark for each of the ship units
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
+                location[1] = location[1]+1
+                
+
 
     def is_empty(self):
         # Check if spot is free
@@ -86,9 +102,9 @@ class Board: # Nora can do this
         # return true if the board has no more unsunk ships, false otherwise
         for rows in self.board:
             for space in rows:
-                if space == O:
-                    return false
-        return true
+                if space == "O":
+                    return False
+        return True
 
 
 class Ships: # I, Brynn, can do this class?
@@ -111,7 +127,14 @@ class Ships: # I, Brynn, can do this class?
             self.ship_types.append([1, i]) #append to the list. [1, 1] represents 1 x 1. [1, 2] represents 1 x 2...etc.
             i += 1 #increase the while loop
 
-    def place(self): #place the ships on the board
+    def place(self, board): #place the ships on the board
+        # I think we can just call the place_ship from board instead to be simpler and delete this function
+        board.place_ships()
+        pass
+
+    def fire(self, location):
+        #check the board to see if a hit and if so determine if the ship was sunk
+        #return a 0 for a miss, a 1 for a hit, and a 2 for a sink
         pass
 
     # def orientation()
@@ -175,7 +198,8 @@ if __name__ == '__main__':
     ships1.load_types() #create the list of ships for player 1
     boards[0].display_board() #display the blank board
     for ship in ships1.ship_types: #depending on the number of ships picked
-        ships1.place() #place the ships
+        # ships1.place(boards[0]) #place the ships
+        boards[0].place_ships(ship) #making the board class write in the ship to the board as its placed
         boards[0].display_board() #display the current state of the board after each ship placement
     currentplayer.end_turn() #confirm the end of player 1's setup turn and make player 2 the new current player
 
@@ -186,14 +210,15 @@ if __name__ == '__main__':
     ships2.load_types() #create the list of ships for player 2
     boards[1].display_board() #display the blank board
     for ship in ships2.ship_types: #depending on the number of ships picked
-        ships2.place() #place the ships
+        boards[1].place_ships(ship) #place the ships
         boards[1].display_board() #display the current state of the board after each ship placement
     currentplayer.end_turn() #end player 2's setup turn and make the current player player 1
 
     # main game loop to be repeated until there is a winner
-    while True:
+    gameOver = False
+    while not gameOver:
         currentplayer.begin_turn() # start the next turn
-        currentboard = currentplayer.player_num # keep track of which board we are looking at
+        currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
         if currentboard == 0: # also keep track of the opponents board
             oponentboard = 1
         else:
@@ -202,7 +227,7 @@ if __name__ == '__main__':
         player_continue = True # boolean to keep track of if the current player gets to keep guessing
         while player_continue == True: 
             boards[opponentboard].display_opponent_board() # display their opponents board
-            guess_coordinate = input("Input the coordinate you want to fire at") # take in input as string, should add error detection
+            guess_coordinate = input("Input the coordinate you want to fire at ") # take in input as string, should add error detection
             fire = boards[opponentboard].fire() # fire and store output
             if fire == 0: # fire and if output is 0 its a miss
                 print("MISS")
@@ -211,8 +236,12 @@ if __name__ == '__main__':
                 currentplayer.end_turn() #end turn
             elif fire == 1:
                 print("HIT") # if hit, continue in loop
+                if boards[opponentboard].game_over: # check if theres any more ships on the boards
+                    gameOver = True
             else:
                 print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
+                if boards[opponentboard].game_over:
+                    gameOver = True
 
 
         
