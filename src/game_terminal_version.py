@@ -75,6 +75,10 @@ class Board: # Nora can do this
     def place_ships(self, ship): # ship needs to be an array of ints
         #add the ships into the board
         # ship will be a size array(ex [1,2])
+        orientation = "none" # forcing the player to select a boat orientation each round
+        while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
+            orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
+            orientation = orientation_input.lower() #make the user input lowercase
         location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
         location = list(location) #store as an array 
         location[1]= int(location[1])
@@ -107,7 +111,7 @@ class Board: # Nora can do this
         return True
 
 
-class Ships: # I, Brynn, can do this class?
+class Ships: 
     #class that handles 1b; assigning the correct number of ships to a user
     def __init__(self, player_num):
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
