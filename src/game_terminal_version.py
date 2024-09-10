@@ -54,8 +54,9 @@ class Board: # Nora can do this
 
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
-            print(" ".join(row) + f" {i + 1}")
-        print() #add a trailing space for the board
+            # Check each element in the row, replace int with "O", else leave as is
+            formatted_row = ["O" if isinstance(cell, int) else cell for cell in row]
+            print(" ".join(formatted_row) + f" {i + 1}")
 
     def display_opponent_board(self):
         # To display the opponent's board, only showing the sunk ships (replace unsunk ships with '~')
@@ -66,7 +67,7 @@ class Board: # Nora can do this
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
             # Replace non-sunk ships with '~'
-            display_row = ['~' if cell == 'O' else cell for cell in row]
+            display_row = ['~' if isinstance(cell, int) else cell for cell in row]
             # Print the row with the row number
             print(f"{i + 1:2} " + " ".join(display_row))  # Row number with space and row content
             
@@ -91,12 +92,14 @@ class Board: # Nora can do this
             if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)): #check that the values are in the correct range
                 invalid_location = False #if they are, break the while loop
         if ship[0] == 1: #horizontal?
+            ship_size = ship[1]
             for i in range(ship[1]): # add a mark for each of the ship units
-                self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                 location[0] = chr(ord(location[0]) + 1)
         else: #vertical?
+            ship_size = ship[0]
             for i in range(ship[0]): # add a mark for each of the ship units
-                self.board[location[1]-1][ord(location[0].lower()) - 97] = "O"
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                 location[1] = location[1]+1
                 
 
@@ -114,7 +117,7 @@ class Board: # Nora can do this
         # return true if the board has no more unsunk ships, false otherwise
         for rows in self.board:
             for space in rows:
-                if space == "O":
+                if isinstance(space, int):
                     return False
         return True
 
@@ -125,6 +128,7 @@ class Ships:
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
         self.num_ships = 0 #this is provided by the player later (must be numbers 1-5 inclusively)
         self.ship_types = [] #empty list to hold the sizes of the ships
+        self.remaining_units = [] #keep track of how many units of a ship have been hit to know when it is sunk
 
     def choose_ships(self): #the player must select the number of ships they want to have
         num_ships = int(input("Choose the number of ships for your board (1-5): "))
@@ -132,6 +136,8 @@ class Ships:
         while (1 > self.num_ships > 5): #checking for invalid ship values
              new_num = int(input("Invalid number of ships. Select a new number: ")) #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
+        for i in range(num_ships): # keep track of how many unsunk units for each ship
+            self.remaining_units.append(i+1)
 
     def load_types(self): #this forms the list with the sizes of the ships
         i = 1 #initializing for the while loop
