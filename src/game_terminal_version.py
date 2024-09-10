@@ -41,7 +41,7 @@ class Board: # Nora can do this
         self.board = [["~" for _ in range(10)] for _ in range(10)]
         self.map = [] # keep track of coordinates?
 
-        # Ship: O
+        # Ship: O (store ship as their ship number(ex 1) to keep track of when a ship is sunk, but print out O )
         # Ship hit: X
         # Ship sunk: *
         # Open spot: ~
@@ -49,6 +49,7 @@ class Board: # Nora can do this
 
     def display_board(self):
         # Display columns denoted A-J
+        print("Here is your board: ")
         print() #add a leading space for the board
         print(" ".join(chr(ord('A') + i) for i in range(10)))
 
@@ -58,7 +59,8 @@ class Board: # Nora can do this
             formatted_row = ["O" if isinstance(cell, int) else cell for cell in row]
             print(" ".join(formatted_row) + f" {i + 1}")
 
-    def display_opponent_board(self):
+    def display_opponent_board(self): # currently is printing the row nums on the opposite side as the display_board, not sure which one we want but should probably be the same
+        print("Here is your opponents board: ")
         # To display the opponent's board, only showing the sunk ships (replace unsunk ships with '~')
         # Display columns denoted A-J
         print()  # Add a leading space for the board
@@ -67,7 +69,7 @@ class Board: # Nora can do this
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
             # Replace non-sunk ships with '~'
-            display_row = ['~' if isinstance(cell, int) else cell for cell in row]
+            display_row = ['~' if isinstance(cell, int) else cell for cell in row] # dont print where opponents ships are
             # Print the row with the row number
             print(f"{i + 1:2} " + " ".join(display_row))  # Row number with space and row content
             
@@ -76,15 +78,20 @@ class Board: # Nora can do this
     def place_ships(self, ship): # ship needs to be an array of ints
         #add the ships into the board
         # ship will be a size array(ex [1,2])
+        # we still need to add more error detection, such as if the ship will go out of bounds or overlap with another ship
         orientation = "none" # forcing the player to select a boat orientation each round
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
             orientation = orientation_input.lower() #make the user input lowercase
+            if orientation == "v": #swap coordinates if verticle
+                temp = ship[0]
+                ship[0] = ship[1]
+                ship[1] == temp
         invalid_location = True #variable to keep track of location validity
         while invalid_location: #while the location is invalid
             location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
             location = list(location) #store as an array 
-            if len(location) == 3: #if the length is three than the value must be 10 (otherwise out of range..)
+            if len(location) >= 3: #if the length is three than the value must be 10 (otherwise out of range..)
                 location[1] = 10 #make the location 10
             else:  #if it isn't that length it is normal
                 location[1]= int(location[1]) #cast the number as an int
@@ -274,6 +281,7 @@ if __name__ == '__main__':
             else:
                 print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
                 if boards[opponentboard].game_over:
+                    print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True
                     break
 
