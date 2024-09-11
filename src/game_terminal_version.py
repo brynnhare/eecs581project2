@@ -109,9 +109,6 @@ class Board: # Nora can do this
                 self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                 location[1] = location[1]+1
     
-    def is_empty(self):
-        # Check if spot is free
-        pass
 
     def fire(self, guess_coordinate, ship):
         #make guess, check if guess is valid and then update board
@@ -172,25 +169,7 @@ class Ships:
             self.ship_types.append([1, i]) #append to the list. [1, 1] represents 1 x 1. [1, 2] represents 1 x 2...etc.
             i += 1 #increase the while loop
 
-    def place(self, board): #place the ships on the board
-        # I think we can just call the place_ship from board instead to be simpler and delete this function
-        board.place_ships()
-        pass
 
-    def fire(self, location):
-        #check the board to see if a hit and if so determine if the ship was sunk
-        #return a 0 for a miss, a 1 for a hit, and a 2 for a sink
-        pass
-
-    # def orientation()
-
-    #need to have a function that allows for the players to turn the pieces (swap the x and y values of the list?)
-    #need to connect to the gameboard class to "remember" where the pieces are located
-
-class Fire:
-    # need a function to account for "firing" that needs to check that it is a valid space, if yes reply with hit or miss
-    #need a function to update the board
-    pass
 
 class SwitchPlayers:
     #this can be used anytime to move from player 1 to 2 
@@ -213,20 +192,6 @@ class SwitchPlayers:
         input() #require an enter to confirm ending a turn
         self.change() #switch players after the confirmation of a turn ending
 
-
-class DestroyShip: 
-    #needs to keep track of the ship_types list and the board, if a ship is gone it sunk
-    pass
-
-class DisplayBoard:
-    #class responsible for displaying the board
-    #differentiate miss with hit
-    pass
-
-class GameOver:
-    #Change to function
-    #display the correct player as the winner if they sunk all other ships
-    pass
 
 def is_valid_coordinate(coordinate):
     if len(coordinate) < 2 or len(coordinate) > 3:
