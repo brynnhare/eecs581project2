@@ -103,7 +103,6 @@ class Board: # Nora can do this
             ship_num = ship[1]
         else:
             ship_num = ship[0]
-        ship_num 
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
             orientation = orientation_input.lower() #make the user input lowercase
@@ -134,7 +133,7 @@ class Board: # Nora can do this
                 if ship[0] == 1: #horizontal?
                     ship_size = ship[1]
                     for i in range(ship[1]): # add a mark for each of the ship units
-                        if (self.board[location[1]-1][ord(location[0].lower()) - 97]).is_valid():
+                        if self.is_valid([location[1]-1,ord(location[0].lower()) - 97]):
                             self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                             location[0] = chr(ord(location[0]) + 1)
                         else: 
@@ -147,7 +146,7 @@ class Board: # Nora can do this
                 else: #vertical?
                     ship_size = ship[0]
                     for i in range(ship[0]): # add a mark for each of the ship units
-                        if self.board[location[1]-1][ord(location[0].lower()) - 97].is_valid():
+                        if self.is_valid([location[1]-1,ord(location[0].lower()) - 97]):
                             self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                             location[1] = location[1]+1
                         else:
