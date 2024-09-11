@@ -75,10 +75,25 @@ class Board: # Nora can do this
             
         print()  # Add a trailing space for the board
 
+    def is_empty(self, row, column):
+        # Check if spot is free
+        if self.board[row][column] == "~":
+            return True
+        else:
+            return False 
+
+    def is_valid(self, row, column):
+        # Check if spot is valid (spot is empty and within range)
+        if row <= 10 and column <= 10 and self.is_empty(row, column):
+            return True
+        else:
+            return False 
+
     def place_ships(self, ship): # ship needs to be an array of ints
         #add the ships into the board
         # ship will be a size array(ex [1,2])
         # we still need to add more error detection, such as if the ship will go out of bounds or overlap with another ship
+        print("Ship size: ", ship[1])
         orientation = "none" # forcing the player to select a boat orientation each round
         if ship[0] == 1:
             ship_num = ship[1]
@@ -94,50 +109,34 @@ class Board: # Nora can do this
                 ship[1] == temp
         invalid_location = True #variable to keep track of location validity
         while invalid_location: #while the location is invalid
-            location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
-            location = list(location) #store as an array 
-            if len(location) >= 3: #if the length is three than the value must be 10 (otherwise out of range..)
-                location[1] = 10 #make the location 10
-            else:  #if it isn't that length it is normal
-                location[1]= int(location[1]) #cast the number as an int
-            location[0] = location[0].lower() #make the letter value lowercase
-            if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)): #check that the values are in the correct range
-                 #invalid_location = False #if they are, break the while loop
-                try: 
-                    if ship[0] == 1: #horizontal?
-                        ship_size = ship[1]
-                        for i in range(ship[1]): # add a mark for each of the ship units
-                            if (self.board[location[1]-1][ord(location[0].lower()) - 97]).is_valid():
-                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                                location[0] = chr(ord(location[0]) + 1)
-                            else: 
-                                for row in range(10):
-                                    for col in range(10):
-                                        if self.board[row][col] == ship_num:
-                                            self.board[row][col] = "~"
-                                raise Exception("invalid loction")
-            
-                    else: #vertical?
-                        ship_size = ship[0]
-                        for i in range(ship[0]): # add a mark for each of the ship units
-                            if self.board[location[1]-1][ord(location[0].lower()) - 97].is_valid():
-                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                                location[1] = location[1]+1
-                            else:
-                                for row in range(10):
-                                    for col in range(10):
-                                        if self.board[row][col] == ship_num:
-                                            self.board[row][col] = "~"
-                                raise Exception("invalid loction")
-                    invalid_location = False
-                except: 
-                    print("That location is not valid")
+            try: 
+                location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
+                location = list(location) #store as an array 
+                if len(location) > 3:
+                    location[1] = 99
+                elif len(location) == 3: #if the length is three than the value must be 10 (otherwise out of range..)
+                    if int(location[2]) == 0: 
+                        location[1] = 10 #make the location 10
+                    else: 
+                        location[1] = 99
+                else:  #if it isn't that length it is normal
+                    location[1]= int(location[1]) #cast the number as an int
+                location[0] = location[0].lower() #make the letter value lowercase
+                if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)): #check that the values are in the correct range
+                    invalid_location = False #if they are, break the while loop
+            except:
+                invalid_location = True
+        if ship[0] == 1: #horizontal?
+            ship_size = ship[1]
+            for i in range(ship[1]): # add a mark for each of the ship units
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                location[0] = chr(ord(location[0]) + 1)
+        else: #vertical?
+            ship_size = ship[0]
+            for i in range(ship[0]): # add a mark for each of the ship units
+                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                location[1] = location[1]+1
     
-
-    
-    def is_empty(self, ):
-        # Check if spot is free
-        pass
 
     def fire(self, guess_coordinate, ship):
         #make guess, check if guess is valid and then update board
@@ -198,25 +197,7 @@ class Ships:
             self.ship_types.append([1, i]) #append to the list. [1, 1] represents 1 x 1. [1, 2] represents 1 x 2...etc.
             i += 1 #increase the while loop
 
-    def place(self, board): #place the ships on the board
-        # I think we can just call the place_ship from board instead to be simpler and delete this function
-        board.place_ships()
-        pass
 
-    def fire(self, location):
-        #check the board to see if a hit and if so determine if the ship was sunk
-        #return a 0 for a miss, a 1 for a hit, and a 2 for a sink
-        pass
-
-    # def orientation()
-
-    #need to have a function that allows for the players to turn the pieces (swap the x and y values of the list?)
-    #need to connect to the gameboard class to "remember" where the pieces are located
-
-class Fire:
-    # need a function to account for "firing" that needs to check that it is a valid space, if yes reply with hit or miss
-    #need a function to update the board
-    pass
 
 class SwitchPlayers:
     #this can be used anytime to move from player 1 to 2 
@@ -239,20 +220,6 @@ class SwitchPlayers:
         input() #require an enter to confirm ending a turn
         self.change() #switch players after the confirmation of a turn ending
 
-
-class DestroyShip: 
-    #needs to keep track of the ship_types list and the board, if a ship is gone it sunk
-    pass
-
-class DisplayBoard:
-    #class responsible for displaying the board
-    #differentiate miss with hit
-    pass
-
-class GameOver:
-    #Change to function
-    #display the correct player as the winner if they sunk all other ships
-    pass
 
 def is_valid_coordinate(coordinate):
     if len(coordinate) < 2 or len(coordinate) > 3:
