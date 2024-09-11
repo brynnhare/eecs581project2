@@ -49,7 +49,7 @@ class Board: # Nora can do this
     
     def symbol_key(self):
         print("Symbol Key for Battleship: ")
-        print(f'Ship: 0\nShip hit: X\nShip sunk: *\nOpen spot: ~\nMissfire: .\n')
+        print(f'\tShip: 0\n\tShip hit: X\n\tShip sunk: *\n\tOpen spot: ~\n\tMissfire: .\n')
 
     def display_board(self):
         # Display columns denoted A-J
