@@ -266,6 +266,25 @@ def is_valid_coordinate(coordinate):
 
     return True
 
+class Game:
+    def __init__(self, boards, ships, currentplayer):
+        self.boards = boards
+        self.ships = ships
+        self.currentplayer = currentplayer
+
+    def game_setup(self, player):
+        self.currentplayer.begin_turn() #prompt current player to begin first turn 
+        self.boards[player].symbol_key() #print the symbols for the games
+        self.ships[player].choose_ships() #prompt current player with the number of ships to select
+        self.ships[player].load_types() #create the list of ships for current player
+        self.boards[player].display_board() #display the blank board
+        for ship in self.ships[player].ship_types: #depending on the number of ships picked
+        # ships1.place(boards[0]) #place the ships
+            self.boards[player].place_ships(ship) #making the board class write in the ship to the board as its placed
+            self.boards[player].display_board() #display the current state of the board after each ship placement
+        self.currentplayer.end_turn() #confirm the end of current player's setup turn and make opponent the new current player
+
+
 if __name__ == '__main__':
     #start the game and initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # store boards in an array to access easier
@@ -276,29 +295,14 @@ if __name__ == '__main__':
     #ships2 = Ships(player2) #create an ships class for player 2
     currentplayer = SwitchPlayers() #object that controls who the current player is
 
-    #begin the game setup for player1
-    currentplayer.begin_turn() #prompt player 1 to begin first turn 
-    boards[0].symbol_key() #print the symbols for the games
-    ships[0].choose_ships() #prompt player 1 with the number of ships to select
-    ships[0].load_types() #create the list of ships for player 1
-    boards[0].display_board() #display the blank board
-    for ship in ships[0].ship_types: #depending on the number of ships picked
-        # ships1.place(boards[0]) #place the ships
-        boards[0].place_ships(ship) #making the board class write in the ship to the board as its placed
-        boards[0].display_board() #display the current state of the board after each ship placement
-    currentplayer.end_turn() #confirm the end of player 1's setup turn and make player 2 the new current player
+    # Start game
+    startGame = Game(boards, ships, currentplayer)
 
+    # Set up board for player 1
+    startGame.game_setup(0)
 
-    #begin the game setup for player2
-    currentplayer.begin_turn() #prompt play 2 to being first setup turn
-    boards[1].symbol_key() #print the symbols for the games
-    ships[1].choose_ships() #prompt player 2 with the number of ships to select
-    ships[1].load_types() #create the list of ships for player 2
-    boards[1].display_board() #display the blank board
-    for ship in ships[1].ship_types: #depending on the number of ships picked
-        boards[1].place_ships(ship) #place the ships
-        boards[1].display_board() #display the current state of the board after each ship placement
-    currentplayer.end_turn() #end player 2's setup turn and make the current player player 1
+    # Set up board for player 2
+    startGame.game_setup(1)
 
     # main game loop to be repeated until there is a winner
     gameOver = False
@@ -336,7 +340,6 @@ if __name__ == '__main__':
                     break
 
 
-        
     
 
 
