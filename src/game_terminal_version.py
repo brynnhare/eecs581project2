@@ -87,7 +87,6 @@ class Board: # Nora can do this
             return False 
 
     def is_valid(self, row, column):
-        print("hi thereeeeeeeeeeeeeeeeee")
         # Check if spot is valid (spot is empty and within range)
         if row <= 10 and column <= 10 and self.is_empty(row, column):
             return True
@@ -305,6 +304,7 @@ if __name__ == '__main__':
     gameOver = False
     player_continue = True
     while not gameOver:
+        player_continue = True
         currentplayer.begin_turn() # start the next turn
         currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
         if currentboard == 0: # also keep track of the opponents board
