@@ -75,6 +75,20 @@ class Board: # Nora can do this
             
         print()  # Add a trailing space for the board
 
+    def is_empty(self, row, column):
+        # Check if spot is free
+        if self.board[row][column] == "~":
+            return True
+        else:
+            return False 
+
+    def is_valid(self, row, column):
+        # Check if spot is valid (spot is empty and within range)
+        if row <= 10 and column <= 10 and self.is_empty(row, column):
+            return True
+        else:
+            return False 
+
     def place_ships(self, ship): # ship needs to be an array of ints
         #add the ships into the board
         # ship will be a size array(ex [1,2])
