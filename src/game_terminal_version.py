@@ -150,8 +150,13 @@ class Ships:
         self.remaining_units = [] #keep track of how many units of a ship have been hit to know when it is sunk
 
     def choose_ships(self): #the player must select the number of ships they want to have
-        num_ships = int(input("Choose the number of ships for your board (1-5): "))
-        self.num_ships = num_ships
+        while True:    
+            try:  
+                num_ships = int(input("Choose the number of ships for your board (1-5): "))
+                self.num_ships = num_ships
+                break
+            except: 
+                print("Invalid number of ships.")
         while (1 > self.num_ships > 5): #checking for invalid ship values
              new_num = int(input("Invalid number of ships. Select a new number: ")) #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
              self.num_ships = new_num #assign the new number to be the number of ships
