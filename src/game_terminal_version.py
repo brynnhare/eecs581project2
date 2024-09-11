@@ -126,35 +126,35 @@ class Board: # Nora can do this
                     invalid_location = False #if they are, break the while loop
             except:
                 invalid_location = True
-                try: 
-                    if ship[0] == 1: #horizontal?
-                        ship_size = ship[1]
-                        for i in range(ship[1]): # add a mark for each of the ship units
-                            if (self.board[location[1]-1][ord(location[0].lower()) - 97]).is_valid():
-                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                                location[0] = chr(ord(location[0]) + 1)
-                            else: 
-                                for row in range(10):
-                                    for col in range(10):
-                                        if self.board[row][col] == ship_num:
-                                            self.board[row][col] = "~"
-                                raise Exception("invalid loction")
+            try: 
+                if ship[0] == 1: #horizontal?
+                    ship_size = ship[1]
+                    for i in range(ship[1]): # add a mark for each of the ship units
+                        if (self.board[location[1]-1][ord(location[0].lower()) - 97]).is_valid():
+                            self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                            location[0] = chr(ord(location[0]) + 1)
+                        else: 
+                            for row in range(10):
+                                for col in range(10):
+                                    if self.board[row][col] == ship_num:
+                                        self.board[row][col] = "~"
+                            raise Exception("invalid loction")
 
-                    else: #vertical?
-                        ship_size = ship[0]
-                        for i in range(ship[0]): # add a mark for each of the ship units
-                            if self.board[location[1]-1][ord(location[0].lower()) - 97].is_valid():
-                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                                location[1] = location[1]+1
-                            else:
-                                for row in range(10):
-                                    for col in range(10):
-                                        if self.board[row][col] == ship_num:
-                                            self.board[row][col] = "~"
-                                raise Exception("invalid loction")
-                    invalid_location = False
-                except: 
-                    print("That location is not valid")
+                else: #vertical?
+                    ship_size = ship[0]
+                    for i in range(ship[0]): # add a mark for each of the ship units
+                        if self.board[location[1]-1][ord(location[0].lower()) - 97].is_valid():
+                            self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                            location[1] = location[1]+1
+                        else:
+                            for row in range(10):
+                                for col in range(10):
+                                    if self.board[row][col] == ship_num:
+                                        self.board[row][col] = "~"
+                            raise Exception("invalid loction")
+                invalid_location = False
+            except: 
+                print("That location is not valid")
 
     
 
