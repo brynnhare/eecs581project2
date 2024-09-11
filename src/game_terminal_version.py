@@ -80,6 +80,11 @@ class Board: # Nora can do this
         # ship will be a size array(ex [1,2])
         # we still need to add more error detection, such as if the ship will go out of bounds or overlap with another ship
         orientation = "none" # forcing the player to select a boat orientation each round
+        if ship[0] == 1:
+            ship_num = ship[1]
+        else:
+            ship_num = ship[0]
+        ship_num 
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
             orientation = orientation_input.lower() #make the user input lowercase
@@ -97,19 +102,40 @@ class Board: # Nora can do this
                 location[1]= int(location[1]) #cast the number as an int
             location[0] = location[0].lower() #make the letter value lowercase
             if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)): #check that the values are in the correct range
-                invalid_location = False #if they are, break the while loop
-        if ship[0] == 1: #horizontal?
-            ship_size = ship[1]
-            for i in range(ship[1]): # add a mark for each of the ship units
-                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                location[0] = chr(ord(location[0]) + 1)
-        else: #vertical?
-            ship_size = ship[0]
-            for i in range(ship[0]): # add a mark for each of the ship units
-                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
-                location[1] = location[1]+1
+                 #invalid_location = False #if they are, break the while loop
+                try: 
+                    if ship[0] == 1: #horizontal?
+                        ship_size = ship[1]
+                        for i in range(ship[1]): # add a mark for each of the ship units
+                            if (self.board[location[1]-1][ord(location[0].lower()) - 97]).is_valid():
+                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                                location[0] = chr(ord(location[0]) + 1)
+                            else: 
+                                for row in range(10):
+                                    for col in range(10):
+                                        if self.board[row][col] == ship_num:
+                                            self.board[row][col] = "~"
+                                raise Exception("invalid loction")
+            
+                    else: #vertical?
+                        ship_size = ship[0]
+                        for i in range(ship[0]): # add a mark for each of the ship units
+                            if self.board[location[1]-1][ord(location[0].lower()) - 97].is_valid():
+                                self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+                                location[1] = location[1]+1
+                            else:
+                                for row in range(10):
+                                    for col in range(10):
+                                        if self.board[row][col] == ship_num:
+                                            self.board[row][col] = "~"
+                                raise Exception("invalid loction")
+                    invalid_location = False
+                except: 
+                    print("That location is not valid")
     
-    def is_empty(self):
+
+    
+    def is_empty(self, ):
         # Check if spot is free
         pass
 
