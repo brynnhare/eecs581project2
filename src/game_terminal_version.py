@@ -158,8 +158,11 @@ class Ships:
             except: 
                 print("Invalid number of ships.")
         while (self.num_ships < 1) or (self.num_ships > 5): #checking for invalid ship values
-             new_num = int(input("Invalid number of ships. Select a new number: ")) #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
-             self.num_ships = new_num #assign the new number to be the number of ships
+            try: 
+                new_num = int(input("Invalid number of ships. Select a new number: ")) #prompt for another number ***THIS CAN BE CHANGED JUST AN INITIAL PHASE***
+                self.num_ships = new_num #assign the new number to be the number of ships
+            except: 
+                self.num_ships = 0
         for i in range(num_ships): # keep track of how many unsunk units for each ship
             self.remaining_units.append(i+1)
 
