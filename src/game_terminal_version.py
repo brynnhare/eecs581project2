@@ -14,27 +14,6 @@ import sys
 player1 = 1
 player2 = 2
 
-
-# class Game:
-    # def __init__(self):
-    #     pass
-    
-    # def draw_boards(self):
-    #     player1_board.draw()
-    #     player2_board.draw()
-
-    #     ship = player2_ships.get_1x4("B", 5, orientation="horizontal")  # my example: ship on Player 2's board
-    #     # note that this returns a list of tuples representing the squares the ship occupies
-    #     player2_ships.remove_ship(ship)  # remove ship from Player 2's board
-
-    #     screen.blit(player1_board.surface, (0,0))
-    #     screen.blit(player2_board.surface, ((WIDTH + 50) // 2, 0)) 
-
-    # def update(self):
-    #     screen.fill(Colors().get_white())
-    #     self.draw_boards()
-    #     pygame.display.update()
-
 class Board: # Nora can do this 
     def __init__(self, player_num):
         self.player_num = player_num
