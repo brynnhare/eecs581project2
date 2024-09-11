@@ -233,6 +233,23 @@ class GameOver:
     #display the correct player as the winner if they sunk all other ships
     pass
 
+def is_valid_coordinate(coordinate):
+    if len(coordinate) < 2 or len(coordinate) > 3:
+        return False
+
+    row = coordinate[0].upper()
+    col = coordinate[1:]
+
+    # Check if the row is a letter between A and J (for a 10x10 grid)
+    if row < 'A' or row > 'J':
+        return False
+
+    # Check if the column is a number between 1 and 10
+    if not col.isdigit() or not (1 <= int(col) <= 10):
+        return False
+
+    return True
+
 if __name__ == '__main__':
     #start the game and initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # store boards in an array to access easier
@@ -275,7 +292,13 @@ if __name__ == '__main__':
         else:
             opponentboard = 0
         boards[currentboard].display_board() # display their own board to see what opponent has hit
-        player_continue = True # boolean to keep track of if the current player gets to keep guessing
+        while True:
+            guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
+            if is_valid_coordinate(guess_coordinate):
+                print(f"You fired at {guess_coordinate}")
+                break  # Exit the loop if input is valid
+    else:
+        print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).")
         while player_continue == True: 
             boards[opponentboard].display_opponent_board() # display their opponents board
             guess_coordinate = input("Input the coordinate you want to fire at ") # take in input as string, should add error detection
