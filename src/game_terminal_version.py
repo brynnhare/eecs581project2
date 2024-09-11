@@ -272,6 +272,7 @@ if __name__ == '__main__':
 
     # main game loop to be repeated until there is a winner
     gameOver = False
+    player_continue = True
     while not gameOver:
         currentplayer.begin_turn() # start the next turn
         currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
@@ -280,16 +281,14 @@ if __name__ == '__main__':
         else:
             opponentboard = 0
         boards[currentboard].display_board() # display their own board to see what opponent has hit
-        while True:
-            guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
-            if is_valid_coordinate(guess_coordinate):
-                print(f"You fired at {guess_coordinate}")
-                break  # Exit the loop if input is valid
-    else:
-        print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).")
         while player_continue == True: 
             boards[opponentboard].display_opponent_board() # display their opponents board
-            guess_coordinate = input("Input the coordinate you want to fire at ") # take in input as string, should add error detection
+            while True:
+                guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
+                if is_valid_coordinate(guess_coordinate):
+                    break  # Exit the loop if input is valid
+                else:
+                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).")
             fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # fire and store output
             if fire == 0: # fire and if output is 0 its a miss
                 print("MISS")
