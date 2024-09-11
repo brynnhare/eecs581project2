@@ -79,6 +79,7 @@ class Board: # Nora can do this
         #add the ships into the board
         # ship will be a size array(ex [1,2])
         # we still need to add more error detection, such as if the ship will go out of bounds or overlap with another ship
+        print("Ship size: ", ship[1])
         orientation = "none" # forcing the player to select a boat orientation each round
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
