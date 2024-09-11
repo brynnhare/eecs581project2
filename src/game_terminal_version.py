@@ -141,8 +141,13 @@ class Board: # Nora can do this
     def fire(self, guess_coordinate, ship):
         #make guess, check if guess is valid and then update board
         # return 0 for miss, 1 for hit, and 2 for a sink
-        guess_coordinate = list(guess_coordinate) # store as list
-        guess_coordinate[1] = int(guess_coordinate[1])
+        if len(guess_coordinate) == 3:
+            guess_coordinate = list(guess_coordinate) # store as list
+            guess_coordinate[1] = 10
+        else:
+            guess_coordinate = list(guess_coordinate) # store as list
+            guess_coordinate[1] = int(guess_coordinate[1])
+        
         target_value = self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97]
         if isinstance(target_value, int): # is a ship)
             ship.remaining_units[target_value-1] = ship.remaining_units[target_value-1] -1 # if so decrement for a hit
