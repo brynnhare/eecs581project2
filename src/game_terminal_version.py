@@ -9,8 +9,6 @@ Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Jo
 Creation date: 9/4/2024
 '''
 
-import sys
-
 player1 = 1
 player2 = 2
 
@@ -75,7 +73,6 @@ class Board: # Nora can do this
     def place_ships(self, ship): # ship needs to be an array of ints
         #add the ships into the board
         # ship will be a size array(ex [1,2])
-        # we still need to add more error detection, such as if the ship will go out of bounds or overlap with another ship
         print("Ship size: ", ship[1])
         orientation = "none" # forcing the player to select a boat orientation each round
         if ship[0] == 1:
@@ -267,11 +264,7 @@ class Game:
 if __name__ == '__main__':
     #start the game and initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # store boards in an array to access easier
-    # board1 = Board(player1) #board1 represents player 1's board
-    # board2 = Board(player2) #board2 represents player 2's board
     ships = [Ships(player1), Ships(player2)] # making ships an array as well
-    #ships1 = Ships(player1) #create an ships class for player 1
-    #ships2 = Ships(player2) #create an ships class for player 2
     currentplayer = SwitchPlayers() #object that controls who the current player is
 
     # Start game
