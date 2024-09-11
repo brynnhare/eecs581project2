@@ -1,10 +1,10 @@
 #! python3
-# main game loop and core logic
+# game loop and  all core logic
 '''
 Program: Battleship
 Description: This program will be a functional two player game of battleship. This
     file contains the main game loop and core logic.
-Output: A game of battleship.
+Output: A game of battleship played in the terminal.
 Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Johnson
 Creation date: 9/4/2024
 '''
@@ -12,35 +12,38 @@ Creation date: 9/4/2024
 player1 = 1
 player2 = 2
 
-class Board: # Nora can do this 
+class Board: 
     def __init__(self, player_num):
-        self.player_num = player_num
-        self.board = [["~" for _ in range(10)] for _ in range(10)]
-        self.map = [] # keep track of coordinates?
+        self.player_num = player_num # Assign each player number a corresponding board
+        self.board = [["~" for _ in range(10)] for _ in range(10)] # upon creation, game board should be filled with empty spaces only
 
+        # Key: 
         # Ship: O (store ship as their ship number(ex 1) to keep track of when a ship is sunk, but print out O )
         # Ship hit: X
         # Ship sunk: *
         # Open spot: ~
         # Missfire: .
     
-    def symbol_key(self):
+    def symbol_key(self): 
+        # print out the key so that the reader can understand the symbols
         print("Symbol Key for Battleship: ")
         print(f'\tShip: 0\n\tShip hit: X\n\tShip sunk: *\n\tOpen spot: ~\n\tMissfire: .\n')
 
-    def display_board(self):
+    def display_board(self): 
+        # disply the current users board
         # Display columns denoted A-J
         print("Here is your board: ")
         print() #add a leading space for the board
-        print(" ".join(chr(ord('A') + i) for i in range(10)))
+        print(" ".join(chr(ord('A') + i) for i in range(10))) # print out letters as column headers
 
         # Display rows denoted 1-10
         for i, row in enumerate(self.board):
             # Check each element in the row, replace int with "O", else leave as is
-            formatted_row = ["O" if isinstance(cell, int) else cell for cell in row]
-            print(" ".join(formatted_row) + f" {i + 1}")
+            formatted_row = ["O" if isinstance(cell, int) else cell for cell in row] # if there is an int, meaning a ship, just print out an "O" for easier readability
+            print(" ".join(formatted_row) + f" {i + 1}") # join together all characters in a row seperated by a space, and followed by the row number
 
-    def display_opponent_board(self): # currently is printing the row nums on the opposite side as the display_board, not sure which one we want but should probably be the same
+    def display_opponent_board(self): 
+        # printing out your opponents board, not displaying their unhit ships
         print("Here is your opponents board: ")
         # To display the opponent's board, only showing the sunk ships (replace unsunk ships with '~')
         # Display columns denoted A-J
@@ -57,32 +60,32 @@ class Board: # Nora can do this
         print()  # Add a trailing space for the board
 
     def is_empty(self, row, column):
-        # Check if spot is free
-        if self.board[row][column] == "~":
+        # Check if spot is free for use in ship placement
+        if self.board[row][column] == "~": # if there is not a ship placed yet
             return True
         else:
-            return False 
+            return False #already a ship in that spot
 
     def is_valid(self, row, column):
         # Check if spot is valid (spot is empty and within range)
-        if row <= 10 and column <= 10 and self.is_empty(row, column):
+        if row <= 10 and column <= 10 and self.is_empty(row, column): # checking if spot is within range and then if it is empty
             return True
         else:
             return False 
 
-    def place_ships(self, ship): # ship needs to be an array of ints
+    def place_ships(self, ship): 
         #add the ships into the board
-        # ship will be a size array(ex [1,2])
-        print("Ship size: ", ship[1])
+        # ship will be a size array of two ints (ex [1,2])
+        print("Ship size: ", ship[1]) # let the user know the ship they are placing
         orientation = "none" # forcing the player to select a boat orientation each round
-        if ship[0] == 1:
-            ship_num = ship[1]
+        if ship[0] == 1: #if ship is horizontal, the other dimension will be the ship size
+            ship_num = ship[1] # keeping track of the ship size as the ship number for use in sink detection
         else:
             ship_num = ship[0]
         while (orientation != "h") and (orientation != "v"): #continue to ask for the ship orientation if not answered with an h or v
             orientation_input = input("Would you like your ship to be horizontal or vertical?\nEnter 'h' for horizontal. Enter 'v' for vertical.\n") #prompt user for orientation
             orientation = orientation_input.lower() #make the user input lowercase
-            if orientation == "v": #swap coordinates if verticle
+            if orientation == "v": #swap ship coordinates if verticle to 
                 temp = ship[0]
                 ship[0] = ship[1]
                 ship[1] == temp
@@ -92,9 +95,9 @@ class Board: # Nora can do this
                 location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
                 location = list(location) #store as an array 
                 if len(location) > 3:
-                    location[1] = 99
+                    location[1] = 99 # change to 99 to ensure it will be marked as invalid in checks below
                 elif len(location) == 3: #if the length is three than the value must be 10 (otherwise out of range..)
-                    if int(location[2]) == 0: 
+                    if int(location[2]) == 0: # store the number value in the index 1 if it is a 10
                         location[1] = 10 #make the location 10
                     else: 
                         location[1] = 99
