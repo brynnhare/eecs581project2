@@ -87,6 +87,7 @@ class Board: # Nora can do this
             return False 
 
     def is_valid(self, row, column):
+        print("hi thereeeeeeeeeeeeeeeeee")
         # Check if spot is valid (spot is empty and within range)
         if row <= 10 and column <= 10 and self.is_empty(row, column):
             return True
@@ -133,7 +134,7 @@ class Board: # Nora can do this
                 if ship[0] == 1: #horizontal?
                     ship_size = ship[1]
                     for i in range(ship[1]): # add a mark for each of the ship units
-                        if self.is_valid([location[1]-1,ord(location[0].lower()) - 97]):
+                        if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
                             self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                             location[0] = chr(ord(location[0]) + 1)
                         else: 
@@ -146,7 +147,7 @@ class Board: # Nora can do this
                 else: #vertical?
                     ship_size = ship[0]
                     for i in range(ship[0]): # add a mark for each of the ship units
-                        if self.is_valid([location[1]-1,ord(location[0].lower()) - 97]):
+                        if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
                             self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                             location[1] = location[1]+1
                         else:
