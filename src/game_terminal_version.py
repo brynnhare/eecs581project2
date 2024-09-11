@@ -46,6 +46,10 @@ class Board: # Nora can do this
         # Ship sunk: *
         # Open spot: ~
         # Missfire: .
+    
+    def symbol_key(self):
+        print("Symbol Key for Battleship: ")
+        print(f'Ship: 0\nShip hit: X\nShip sunk: *\nOpen spot: ~\nMissfire: .\n')
 
     def display_board(self):
         # Display columns denoted A-J
@@ -250,6 +254,7 @@ if __name__ == '__main__':
 
     #begin the game setup for player1
     currentplayer.begin_turn() #prompt player 1 to begin first turn 
+    boards[0].symbol_key() #print the symbols for the games
     ships[0].choose_ships() #prompt player 1 with the number of ships to select
     ships[0].load_types() #create the list of ships for player 1
     boards[0].display_board() #display the blank board
@@ -262,6 +267,7 @@ if __name__ == '__main__':
 
     #begin the game setup for player2
     currentplayer.begin_turn() #prompt play 2 to being first setup turn
+    boards[1].symbol_key() #print the symbols for the games
     ships[1].choose_ships() #prompt player 2 with the number of ships to select
     ships[1].load_types() #create the list of ships for player 2
     boards[1].display_board() #display the blank board
@@ -281,7 +287,7 @@ if __name__ == '__main__':
         else:
             opponentboard = 0
         boards[currentboard].display_board() # display their own board to see what opponent has hit
-        while player_continue == True: 
+        while player_continue: 
             boards[opponentboard].display_opponent_board() # display their opponents board
             while True:
                 guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
