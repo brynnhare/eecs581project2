@@ -91,8 +91,13 @@ class Board: # Nora can do this
         while invalid_location: #while the location is invalid
             location = input("Enter the upper leftmost coordinate you would like your ship to be placed at: ") #location will be a string for ex A1
             location = list(location) #store as an array 
-            if len(location) >= 3: #if the length is three than the value must be 10 (otherwise out of range..)
-                location[1] = 10 #make the location 10
+            if len(location) > 3:
+                location[1] = 99
+            elif len(location) == 3: #if the length is three than the value must be 10 (otherwise out of range..)
+                if int(location[2]) == 0: 
+                    location[1] = 10 #make the location 10
+                else: 
+                    location[1] = 99
             else:  #if it isn't that length it is normal
                 location[1]= int(location[1]) #cast the number as an int
             location[0] = location[0].lower() #make the letter value lowercase
