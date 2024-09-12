@@ -215,28 +215,22 @@ class SwitchPlayers:
     
     # To change players
     def change(self):
-        # If currently player 1, switch to player 2
-        if self.player_num == 1:
-            self.player_num = 2
-        # If currently player 2, switch to player 1 
+        if self.player_num == 1: 
+            self.player_num = 2 # If currently player 1, switch to player 2
         else: 
-            self.player_num = 1
+            self.player_num = 1 # If currently player 2, switch to player 1 
             
     # To begin player's turn 
     def begin_turn(self):
         # Begin player's turn and wait until there is an input
         print("Begin Player", self.player_num,"'s Turn (Press Enter)") 
-
-        # Requires user to enter to confirm start of a turn 
-        input()
+        input() # Requires user to enter to confirm start of a turn 
         
     # To end player's turn 
     def end_turn(self):
         # Display turn is ending for the player and wait until there is an input
         print("End Player", self.player_num,"'s Turn (Press Enter)") 
-
-        # Requires user to enter to confirm end of their turn 
-        input() 
+        input() # Requires user to enter to confirm end of their turn 
 
         # Switch players after confirming turn is over 
         self.change() 
