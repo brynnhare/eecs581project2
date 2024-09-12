@@ -334,25 +334,21 @@ if __name__ == '__main__':
 
             # Fire 
             fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
-            
-            # Fire 
             # MISS
             if fire == 0: # If output is 0, it's a MISS
                 print("MISS")
                 boards[opponentboard].display_opponent_board() # Display board after miss
                 player_continue = False # Break loop for next player by changing flag
                 currentplayer.end_turn() # End turn
-
             # HIT
             elif fire == 1: # If output is 1, it's a HIT
                 print("HIT") # If hit, continue in loop for player to continue turn 
-
             # Sinking a battleship 
             else:
                 print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
-                    gameOver = True
+                    gameOver = True # Mark game as over using flag
                     break
 
 
