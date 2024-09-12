@@ -303,19 +303,25 @@ if __name__ == '__main__':
     startGame.game_setup(1)
 
     # Main game loop to be repeated until there is a winner
-    gameOver = False 
-    player_continue = True
+    gameOver = False # Flag for if game is over (initialize to False)
+    player_continue = True # Flag for if player's turn is still active (initialize to True)
+
+    # Loop until game is over 
     while not gameOver:
         player_continue = True
-        currentplayer.begin_turn() # start the next turn
-        currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
-        if currentboard == 0: # also keep track of the opponents board
+        currentplayer.begin_turn() # Start the next turn
+
+        # Keep track of boards
+        currentboard = currentplayer.player_num - 1 # Keep track of current player's board
+        if currentboard == 0: # Keep track of the opponents board
             opponentboard = 1
         else:
             opponentboard = 0
-        boards[currentboard].display_board() # display their own board to see what opponent has hit
+
+        # Current player firing 
+        boards[currentboard].display_board() # Display current player's board
         while player_continue: 
-            boards[opponentboard].display_opponent_board() # display their opponents board
+            boards[opponentboard].display_opponent_board() # Display their opponents board
             while True:
                 guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
                 if is_valid_coordinate(guess_coordinate):
