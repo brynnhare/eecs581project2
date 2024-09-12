@@ -9,8 +9,8 @@ Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Jo
 Creation date: 9/4/2024
 '''
 
-player1 = 1
-player2 = 2
+player1 = 1 #global variable to represent player 1
+player2 = 2 #global variable to represent player 2
 
 class Board: 
     def __init__(self, player_num):
@@ -100,7 +100,7 @@ class Board:
                     if int(location[2]) == 0: # store the number value in the index 1 if it is a 10
                         location[1] = 10 #make the location 10
                     else: 
-                        location[1] = 99
+                        location[1] = 99 #sets the location to 99 because it is an invalid location. Once it reaches the check at line 107, it will be invalid.
                 else:  #if it isn't that length it is normal
                     location[1]= int(location[1]) #cast the number as an int
                 location[0] = location[0].lower() #make the letter value lowercase
