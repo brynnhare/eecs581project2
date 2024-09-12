@@ -227,11 +227,13 @@ class SwitchPlayers:
         input() #require an enter to confirm ending a turn
         self.change() #switch players after the confirmation of a turn ending
 
-
+# Check if coordinate i valid 
 def is_valid_coordinate(coordinate):
+    # Check if coordinate has correct number of characters 
     if len(coordinate) < 2 or len(coordinate) > 3:
         return False
 
+    # Store coordinate row and column 
     row = coordinate[0].upper()
     col = coordinate[1:]
 
@@ -243,6 +245,7 @@ def is_valid_coordinate(coordinate):
     if not col.isdigit() or not (1 <= int(col) <= 10):
         return False
 
+    # Otherwise, coordinate is valid 
     return True
 
 class Game:
