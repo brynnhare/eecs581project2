@@ -318,26 +318,38 @@ if __name__ == '__main__':
         else:
             opponentboard = 0
 
-        # Current player firing 
+        # For current player to take turn and fire 
         boards[currentboard].display_board() # Display current player's board
         while player_continue: 
             boards[opponentboard].display_opponent_board() # Display their opponents board
+
+            # Guess coordinate to fire 
             while True:
                 guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
                 if is_valid_coordinate(guess_coordinate):
-                    break  # Exit the loop if input is valid
+                    break  # Exit the loop if coordinate user chose is valid 
+                # Prompt until valid coordinate is inputted 
                 else:
-                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).")
-            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # fire and store output
-            if fire == 0: # fire and if output is 0 its a miss
+                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
+
+            # Fire 
+            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
+            
+            # Fire 
+            # MISS
+            if fire == 0: # If output is 0, it's a MISS
                 print("MISS")
-                boards[opponentboard].display_opponent_board() # after a miss display board
-                player_continue = False # break loop for next player
-                currentplayer.end_turn() #end turn
-            elif fire == 1:
-                print("HIT") # if hit, continue in loop
+                boards[opponentboard].display_opponent_board() # Display board after miss
+                player_continue = False # Break loop for next player by changing flag
+                currentplayer.end_turn() # End turn
+
+            # HIT
+            elif fire == 1: # If output is 1, it's a HIT
+                print("HIT") # If hit, continue in loop for player to continue turn 
+
+            # Sinking a battleship 
             else:
-                print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
+                print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True
