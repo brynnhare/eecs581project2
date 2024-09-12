@@ -205,29 +205,43 @@ class Ships:
             i += 1 #increase the while loop
 
 
-
 class SwitchPlayers:
-    #this can be used anytime to move from player 1 to 2 
-    #the main purpose of this class is to give the players a warning that a turn will switch. This prevents the opposing player's board from displaying, spoiling the secrecy of the game
+    # Can be used any time to switch players
+    # The main purpose of this class is to give the players a warning that a turn will switch 
+    # This prevents the opposing player's board from displaying, spoiling the secrecy of the game
     def __init__(self):
-        self.player_num = 1 #initialized by starting with player 1
+        # Initialize player by starting with player 1 
+        self.player_num = 1
     
+    # To change players
     def change(self):
+        # If currently player 1, switch to player 2
         if self.player_num == 1:
             self.player_num = 2
+        # If currently player 2, switch to player 1 
         else: 
             self.player_num = 1
             
+    # To begin player's turn 
     def begin_turn(self):
-        print("Begin Player", self.player_num,"'s Turn (Press Enter)") #Begins player turn waits till theres an input
-        input() #require an enter to confirm the start of a turn
-        
-    def end_turn(self):
-        print("End Player", self.player_num,"'s Turn (Press Enter)") #display that the turn is ending
-        input() #require an enter to confirm ending a turn
-        self.change() #switch players after the confirmation of a turn ending
+        # Begin player's turn and wait until there is an input
+        print("Begin Player", self.player_num,"'s Turn (Press Enter)") 
 
-# Check if coordinate i valid 
+        # Requires user to enter to confirm start of a turn 
+        input()
+        
+    # To end player's turn 
+    def end_turn(self):
+        # Display turn is ending for the player and wait until there is an input
+        print("End Player", self.player_num,"'s Turn (Press Enter)") 
+
+        # Requires user to enter to confirm end of their turn 
+        input() 
+
+        # Switch players after confirming turn is over 
+        self.change() 
+
+# Check if coordinate is valid 
 def is_valid_coordinate(coordinate):
     # Check if coordinate has correct number of characters 
     if len(coordinate) < 2 or len(coordinate) > 3:
