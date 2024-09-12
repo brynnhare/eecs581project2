@@ -205,33 +205,43 @@ class Ships:
             i += 1 #increase the while loop
 
 
-
 class SwitchPlayers:
-    #this can be used anytime to move from player 1 to 2 
-    #the main purpose of this class is to give the players a warning that a turn will switch. This prevents the opposing player's board from displaying, spoiling the secrecy of the game
+    # Can be used any time to switch players
+    # The main purpose of this class is to give the players a warning that a turn will switch 
+    # This prevents the opposing player's board from displaying, spoiling the secrecy of the game
     def __init__(self):
-        self.player_num = 1 #initialized by starting with player 1
+        # Initialize player by starting with player 1 
+        self.player_num = 1
     
+    # To change players
     def change(self):
-        if self.player_num == 1:
-            self.player_num = 2
+        if self.player_num == 1: 
+            self.player_num = 2 # If currently player 1, switch to player 2
         else: 
-            self.player_num = 1
+            self.player_num = 1 # If currently player 2, switch to player 1 
             
+    # To begin player's turn 
     def begin_turn(self):
-        print("Begin Player", self.player_num,"'s Turn (Press Enter)") #Begins player turn waits till theres an input
-        input() #require an enter to confirm the start of a turn
+        # Begin player's turn and wait until there is an input
+        print("Begin Player", self.player_num,"'s Turn (Press Enter)") 
+        input() # Requires user to enter to confirm start of a turn 
         
+    # To end player's turn 
     def end_turn(self):
-        print("End Player", self.player_num,"'s Turn (Press Enter)") #display that the turn is ending
-        input() #require an enter to confirm ending a turn
-        self.change() #switch players after the confirmation of a turn ending
+        # Display turn is ending for the player and wait until there is an input
+        print("End Player", self.player_num,"'s Turn (Press Enter)") 
+        input() # Requires user to enter to confirm end of their turn 
 
+        # Switch players after confirming turn is over 
+        self.change() 
 
+# Check if coordinate is valid 
 def is_valid_coordinate(coordinate):
+    # Check if coordinate has correct number of characters 
     if len(coordinate) < 2 or len(coordinate) > 3:
         return False
 
+    # Store coordinate row and column 
     row = coordinate[0].upper()
     col = coordinate[1:]
 
@@ -243,6 +253,7 @@ def is_valid_coordinate(coordinate):
     if not col.isdigit() or not (1 <= int(col) <= 10):
         return False
 
+    # Otherwise, coordinate is valid 
     return True
 
 class Game:
@@ -292,38 +303,52 @@ if __name__ == '__main__':
     startGame.game_setup(1)
 
     # Main game loop to be repeated until there is a winner
-    gameOver = False 
-    player_continue = True
+    gameOver = False # Flag for if game is over (initialize to False)
+    player_continue = True # Flag for if player's turn is still active (initialize to True)
+
+    # Loop until game is over 
     while not gameOver:
         player_continue = True
-        currentplayer.begin_turn() # start the next turn
-        currentboard = currentplayer.player_num -1 # keep track of which board we are looking at
-        if currentboard == 0: # also keep track of the opponents board
+        currentplayer.begin_turn() # Start the next turn
+
+        # Keep track of boards
+        currentboard = currentplayer.player_num - 1 # Keep track of current player's board
+        if currentboard == 0: # Keep track of the opponents board
             opponentboard = 1
         else:
             opponentboard = 0
-        boards[currentboard].display_board() # display their own board to see what opponent has hit
+
+        # For current player to take turn and fire 
+        boards[currentboard].display_board() # Display current player's board
         while player_continue: 
-            boards[opponentboard].display_opponent_board() # display their opponents board
+            boards[opponentboard].display_opponent_board() # Display their opponents board
+
+            # Guess coordinate to fire 
             while True:
                 guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
                 if is_valid_coordinate(guess_coordinate):
-                    break  # Exit the loop if input is valid
+                    break  # Exit the loop if coordinate user chose is valid 
+                # Prompt until valid coordinate is inputted 
                 else:
-                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).")
-            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # fire and store output
-            if fire == 0: # fire and if output is 0 its a miss
+                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
+
+            # Fire 
+            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
+            # MISS
+            if fire == 0: # If output is 0, it's a MISS
                 print("MISS")
-                boards[opponentboard].display_opponent_board() # after a miss display board
-                player_continue = False # break loop for next player
-                currentplayer.end_turn() #end turn
-            elif fire == 1:
-                print("HIT") # if hit, continue in loop
+                boards[opponentboard].display_opponent_board() # Display board after miss
+                player_continue = False # Break loop for next player by changing flag
+                currentplayer.end_turn() # End turn
+            # HIT
+            elif fire == 1: # If output is 1, it's a HIT
+                print("HIT") # If hit, continue in loop for player to continue turn 
+            # Sinking a battleship 
             else:
-                print("SUNK BATTLESHIP") # if 2 is returned, ship is sunk
+                print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
-                    gameOver = True
+                    gameOver = True # Mark game as over using flag
                     break
 
 
