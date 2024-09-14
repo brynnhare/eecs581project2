@@ -3,7 +3,7 @@
 '''
 Program: Battleship
 Description: This program will be a functional two player game of battleship. This
-    file contains the main game loop and core logic.
+    file contains the main game loop and core logic. This version of the game ultimately is not used in the final product.
 Output: A game of battleship.
 Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Johnson
 Creation date: 9/4/2024
@@ -12,7 +12,7 @@ import pygame
 import sys
 from gui import Board, Colors, Ships
 
-WIDTH, HEIGHT = 1150, 600 # set screen dimensions
+WIDTH, HEIGHT = 1150, 600 # set GUI dimensions
 
 player1_board = Board(WIDTH - 350, HEIGHT, board_name="Player 1") # create the board for Player 1
 player2_board = Board(WIDTH - 350, HEIGHT, board_name="Player 2") # create the board for Player 2
@@ -20,6 +20,9 @@ player1_ships = Ships(player1_board.surface, player1_board.square_size) # repres
 player2_ships = Ships(player2_board.surface, player2_board.square_size) # represents the available ships for Player 2
 
 class Game:
+    """
+    The main game loop and core logic for the game.
+    """
     def __init__(self):
         self.ship_sizes = ['1x1', '1x2', '1x3', '1x4']
         self.player_boards = [player1_board, player2_board]
@@ -47,6 +50,9 @@ class Game:
         pygame.time.Clock().tick(60)
     
     def draw_boards(self):
+        """
+        Draws the boards for both players, and removes a ship from Player 2's board for testing purposes. Unfinished here.
+        """
         player1_board.draw()
         player2_board.draw()
 

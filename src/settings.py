@@ -1,1 +1,0 @@
-# store configurations (screen size, frame rate, and other constants) 
