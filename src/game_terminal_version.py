@@ -372,12 +372,21 @@ class Opponent:
     def __init__(self):
         pass
 
-    def game_setup(self, ship): 
-        """
-        Place ships for AI opponent's board 
-        Add the ships into the board
-        Ship will be a size array of two ints (ex [1,2])
-        """
+    def game_setup(self, ship): # Place ships for AI opponent's board
+        # TO DO: Checking if AI ship's placing is valid 
+        # To check if AI player's ship placement is vald (within bounds and no overlap):
+        #   Initialize empty list that will store where a ship segment is on the board
+        #   After placing the first ship for the AI's board (size 1 default), record the coordinate that is now occupied
+        #   Then, when next ship (size 2) is being placed:
+        #       AI will randomly generate a coordinate
+        #       If the ship was VERTICAL:
+        #           Check if selected coordinate and coordinate BELOW are within bounds and unoccupied
+        #       If the ship was HORIZONTAL:
+        #           Check if selected coordinate and coordinate to its RIGHT are within bounds and unoccupied 
+        #   Repeat for proceeding sizes (size 3 checks next 2 coordinates below/right, size 4 checks next 3 coordinates below/right, size 5 checks next 4 coordinates below/right)
+
+        # Add the ships into the board
+        # Ship will be a size array of two ints (ex [1,2])
         print("Ship size: ", ship[1]) # let the user know the ship they are placing
         orientation = "none" # forcing the player to select a boat orientation each round
         if (ship[1] == 1) and (ship[0] == 1): #if the ship is of size 1
