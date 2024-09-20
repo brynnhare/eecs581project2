@@ -78,6 +78,8 @@ class Board:
         # ship will be a size array of two ints (ex [1,2])
         print("Ship size: ", ship[1]) # let the user know the ship they are placing
         orientation = "none" # forcing the player to select a boat orientation each round
+        if (ship[1] == 1) and (ship[0] == 1): #if the ship is of size 1
+            orientation = "h" #don't prompt the user for orientation
         if ship[0] == 1: #if ship is horizontal, the other dimension will be the ship size
             ship_num = ship[1] # keeping track of the ship size as the ship number for use in sink detection
         else:
