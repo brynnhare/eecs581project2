@@ -9,6 +9,8 @@ Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Jo
 Creation date: 9/4/2024
 '''
 
+import random # Use random library for AI opponent 
+
 player1 = 1 #global variable to represent player 1
 player2 = 2 #global variable to represent player 2
 p1_misses = 0 #global variable to represent player 1 misses on p2 board
