@@ -10,6 +10,7 @@ Creation date: 9/4/2024
 '''
 
 import random # Use random library for AI opponent 
+import os # used to clear the terminal screen in between turns
 
 player1 = 1 #global variable to represent player 1
 player2 = 2 #global variable to represent player 2
@@ -33,13 +34,17 @@ class Board:
         # Missfire: .
     
     def symbol_key(self): 
-        # print out the key so that the reader can understand the symbols
+        """
+        print out the key so that the reader can understand the symbols
+        """
         print("Symbol Key for Battleship: ")
         print(f'\tShip: 0\n\tShip hit: X\n\tShip sunk: *\n\tOpen spot: ~\n\tMissfire: .\n')
 
     def display_board(self): 
-        # disply the current users board
-        # Display columns denoted A-J
+        """
+        disply the current users board
+        Display columns denoted A-J
+        """
         print("Here is your board: ")
         print() #add a leading space for the board
         print(" ".join(chr(ord('A') + i) for i in range(10))) # print out letters as column headers
@@ -51,7 +56,9 @@ class Board:
             print(" ".join(formatted_row) + f" {i + 1}") # join together all characters in a row seperated by a space, and followed by the row number
 
     def display_opponent_board(self): 
-        # printing out your opponents board, not displaying their unhit ships
+        """
+        printing out your opponents board, not displaying their unhit ships
+        """
         print("Here is your opponents board: ")
         # To display the opponent's board, only showing the sunk ships (replace unsunk ships with '~')
         # Display columns denoted A-J
@@ -68,22 +75,28 @@ class Board:
         print()  # Add a trailing space for the board
 
     def is_empty(self, row, column):
-        # Check if spot is free for use in ship placement
+        """
+        Check if spot is free for use in ship placement
+        """
         if self.board[row][column] == "~": # if there is not a ship placed yet
             return True
         else:
             return False #already a ship in that spot
 
     def is_valid(self, row, column):
-        # Check if spot is valid (spot is empty and within range)
+        """
+        Check if spot is valid (spot is empty and within range)
+        """
         if row <= 10 and column <= 10 and self.is_empty(row, column): # checking if spot is within range and then if it is empty
             return True
         else:
             return False 
 
     def place_ships(self, ship): 
-        #add the ships into the board
-        # ship will be a size array of two ints (ex [1,2])
+        """
+        add the ships into the board
+        ship will be a size array of two ints (ex [1,2])
+        """
         print("Ship size: ", ship[1]) # let the user know the ship they are placing
         orientation = "none" # forcing the player to select a boat orientation each round
         if (ship[1] == 1) and (ship[0] == 1): #if the ship is of size 1
@@ -151,8 +164,10 @@ class Board:
     
 
     def fire(self, guess_coordinate, ship):
-        #make guess, check if guess is valid and then update board
-        # return 0 for miss, 1 for hit, and 2 for a sink
+        """
+        make guess, check if guess is valid and then update board
+        return 0 for miss, 1 for hit, and 2 for a sink
+        """
         if len(guess_coordinate) == 3:
             guess_coordinate = list(guess_coordinate) # store as list
             guess_coordinate[1] = 10
@@ -175,7 +190,9 @@ class Board:
         pass
 
     def game_over(self):
-        # return true if the board has no more unsunk ships, false otherwise
+        """
+        return true if the board has no more unsunk ships, false otherwise
+        """
         for rows in self.board:
             for space in rows:
                 if isinstance(space, int):
@@ -184,7 +201,9 @@ class Board:
 
 
 class Ships: 
-    #class that handles 1b; assigning the correct number of ships to a user
+    """
+    class that handles 1b; assigning the correct number of ships to a user
+    """
     def __init__(self, player_num):
         self.player_num = player_num #this will be put in by us each time they switch, to reprsent player 1 or 2
         self.num_ships = 0 #this is provided by the player later (must be numbers 1-5 inclusively)
@@ -216,15 +235,21 @@ class Ships:
 
 
 class SwitchPlayers:
-    # Can be used any time to switch players
-    # The main purpose of this class is to give the players a warning that a turn will switch 
-    # This prevents the opposing player's board from displaying, spoiling the secrecy of the game
+    """
+    Can be used any time to switch players
+    The main purpose of this class is to give the players a warning that a turn will switch 
+    This prevents the opposing player's board from displaying, spoiling the secrecy of the game
+    """
     def __init__(self):
-        # Initialize player by starting with player 1 
+        """
+        Initialize player by starting with player 1 
+        """
         self.player_num = 1
     
-    # To change players
     def change(self):
+        """
+        To change players
+        """
         if self.player_num == 1: 
             self.player_num = 2 # If currently player 1, switch to player 2
         else: 
@@ -232,22 +257,29 @@ class SwitchPlayers:
             
     # To begin player's turn 
     def begin_turn(self):
-        # Begin player's turn and wait until there is an input
+        """
+        Begin player's turn and wait until there is an input
+        """
         print("Begin Player", self.player_num,"'s Turn (Press Enter)") 
         input() # Requires user to enter to confirm start of a turn 
         
-    # To end player's turn 
     def end_turn(self):
-        # Display turn is ending for the player and wait until there is an input
+        """
+        To end player's turn 
+        Display turn is ending for the player and wait until there is an input
+        """
         print("End Player", self.player_num,"'s Turn (Press Enter)") 
         input() # Requires user to enter to confirm end of their turn 
 
         # Switch players after confirming turn is over 
         self.change() 
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-# Check if coordinate is valid 
 def is_valid_coordinate(coordinate):
-    # Check if coordinate has correct number of characters 
+    """
+    Check if coordinate is valid 
+    Check if coordinate has correct number of characters 
+    """
     if len(coordinate) < 2 or len(coordinate) > 3:
         return False
 
@@ -267,7 +299,9 @@ def is_valid_coordinate(coordinate):
     return True
 
 def two_player_game():
-    # Initialize the boards, ships, and players
+    """
+    Initialize the boards, ships, and players
+    """
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
     currentplayer = SwitchPlayers() # Object that controls who the current player is
@@ -332,12 +366,18 @@ def two_player_game():
 
 
 class Opponent:
+    """
+    TODO: Add description for this class
+    """
     def __init__(self):
         pass
 
-    def game_setup(self, ship): # Place ships for AI opponent's board 
-        # Add the ships into the board
-        # Ship will be a size array of two ints (ex [1,2])
+    def game_setup(self, ship): 
+        """
+        Place ships for AI opponent's board 
+        Add the ships into the board
+        Ship will be a size array of two ints (ex [1,2])
+        """
         print("Ship size: ", ship[1]) # let the user know the ship they are placing
         orientation = "none" # forcing the player to select a boat orientation each round
         if (ship[1] == 1) and (ship[0] == 1): #if the ship is of size 1
@@ -402,13 +442,22 @@ class Opponent:
             except: 
                 print("That location is not valid")
 
-    def fire_easy(self): # Fire at random coordinates on the board
+    def fire_easy(self):
+        """
+        Fire at random coordinates on the board
+        """
         pass
 
-    def fire_medium(self): # Fire at random coordinates until a ship is hit, then hit orthogonally adjacent until ship is sunk
+    def fire_medium(self): 
+        """
+        Fire at random coordinates until a ship is hit, then hit orthogonally adjacent until ship is sunk
+        """
         pass
 
-    def fire_hard(self): # Fire at all coordinates that contain a ship
+    def fire_hard(self): 
+        """
+        Fire at all coordinates that contain a ship
+        """
         pass
 
 
@@ -501,8 +550,10 @@ class Game:
         self.currentplayer = currentplayer
         self.ai = 0
 
-    # Method where player sets up their board
     def game_setup(self, player): 
+        """
+        Method where player sets up their board
+        """
 
         # Prompt current player to begin first turn 
         self.currentplayer.begin_turn() 
