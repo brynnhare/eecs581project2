@@ -256,38 +256,71 @@ def is_valid_coordinate(coordinate):
     # Otherwise, coordinate is valid 
     return True
 
-class Game:
-    def __init__(self, boards, ships, currentplayer):
-        self.boards = boards
-        self.ships = ships
-        self.currentplayer = currentplayer
+def two_player_game()
+    # Initialize the boards, ships, and players
+    boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
+    ships = [Ships(player1), Ships(player2)] # Store ships in an array 
+    currentplayer = SwitchPlayers() # Object that controls who the current player is
 
-    # Method where player sets up their board
-    def game_setup(self, player): 
-        # Prompt current player to begin first turn 
-        self.currentplayer.begin_turn() 
+    # Start game
+    startGame = Game(boards, ships, currentplayer)
 
-        # Print the key & symbols for the games
-        self.boards[player].symbol_key()
+    # Set up board for player 1
+    startGame.game_setup(0)
 
-        # Prompt current player to select number of ships (1-5)
-        self.ships[player].choose_ships() 
-        self.ships[player].load_types() # Create the list to store current player's ships
-        
-        # Display the blank board
-        self.boards[player].display_board() 
+    # Set up board for player 2
+    startGame.game_setup(1)
 
-        # Place each of the player's ships 
-        for ship in self.ships[player].ship_types: # Iterate over list of ships to place each ship the player has
-            self.boards[player].place_ships(ship) # Make the board class write in the ship to the board as its placed
-            self.boards[player].display_board() # Display what the updated board looks like after a ship is placed 
-        
-        # Confirm the end of current player's setup turn and make opponent the new current player
-        self.currentplayer.end_turn() 
+    # Main game loop to be repeated until there is a winner
+    gameOver = False # Flag for if game is over (initialize to False)
+    player_continue = True # Flag for if player's turn is still active (initialize to True)
 
+    # Loop until game is over 
+    while not gameOver:
+        player_continue = True
+        currentplayer.begin_turn() # Start the next turn
 
-if __name__ == '__main__':
+        # Keep track of boards
+        currentboard = currentplayer.player_num - 1 # Keep track of current player's board
+        if currentboard == 0: # Keep track of the opponents board
+            opponentboard = 1
+        else:
+            opponentboard = 0
 
+        # For current player to take turn and fire 
+        boards[currentboard].display_board() # Display current player's board
+        while player_continue: 
+            boards[opponentboard].display_opponent_board() # Display their opponents board
+
+            # Guess coordinate to fire 
+            while True:
+                guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
+                if is_valid_coordinate(guess_coordinate):
+                    break  # Exit the loop if coordinate user chose is valid 
+                # Prompt until valid coordinate is inputted 
+                else:
+                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
+
+            # Fire 
+            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
+            # MISS
+            if fire == 0: # If output is 0, it's a MISS
+                print("MISS")
+                boards[opponentboard].display_opponent_board() # Display board after miss
+                player_continue = False # Break loop for next player by changing flag
+                currentplayer.end_turn() # End turn
+            # HIT
+            elif fire == 1: # If output is 1, it's a HIT
+                print("HIT") # If hit, continue in loop for player to continue turn 
+            # Sinking a battleship 
+            else:
+                print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
+                if boards[opponentboard].game_over():
+                    print(f"GAME OVER: Player {currentplayer.player_num} wins!")
+                    gameOver = True # Mark game as over using flag
+                    break
+
+def one_player_game()
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
@@ -352,6 +385,48 @@ if __name__ == '__main__':
                     break
 
 
+
+class Game:
+    def __init__(self, boards, ships, currentplayer):
+        self.boards = boards
+        self.ships = ships
+        self.currentplayer = currentplayer
+        self.ai = 0
+
+    # Method where player sets up their board
+    def game_setup(self, player): 
+
+        # Prompt current player to begin first turn 
+        self.currentplayer.begin_turn() 
+
+        # Print the key & symbols for the games
+        self.boards[player].symbol_key()
+
+        # Prompt current player to select number of ships (1-5)
+        self.ships[player].choose_ships() 
+        self.ships[player].load_types() # Create the list to store current player's ships
+        
+        # Display the blank board
+        self.boards[player].display_board() 
+
+        # Place each of the player's ships 
+        for ship in self.ships[player].ship_types: # Iterate over list of ships to place each ship the player has
+            self.boards[player].place_ships(ship) # Make the board class write in the ship to the board as its placed
+            self.boards[player].display_board() # Display what the updated board looks like after a ship is placed 
+        
+        # Confirm the end of current player's setup turn and make opponent the new current player
+        self.currentplayer.end_turn() 
+
+
+if __name__ == '__main__':
+
+    # ask if it will be a two player game or an ai game
+    ai = int(input("How many players do you have : "))
+    if ai == 2:
+        two_player_game()
+    else:
+        one_player_game()
+    
 
 
 
