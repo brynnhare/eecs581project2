@@ -13,6 +13,12 @@ import random # Use random library for AI opponent
 
 player1 = 1 #global variable to represent player 1
 player2 = 2 #global variable to represent player 2
+p1_misses = 0 #global variable to represent player 1 misses on p2 board
+p1_hits = 0 #global variable to represent player 1 hits on p2 board
+p1_sunk = 0 #global variable to represent player 1 ships sunk on p2 board
+p2_misses = 0 #global variable to represent player 2 misses on p1 board
+p2_hits = 0 #global variable to represent player 2 hits on p1 board
+p2_sunk = 0 #global variable to represent player 2 ships sunk on p1 board
 
 class Board: 
     def __init__(self, player_num):
@@ -323,6 +329,7 @@ def two_player_game():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True # Mark game as over using flag
                     break
+
 
 class Opponent:
     def __init__(self):
