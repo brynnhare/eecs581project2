@@ -11,6 +11,12 @@ Creation date: 9/4/2024
 
 player1 = 1 #global variable to represent player 1
 player2 = 2 #global variable to represent player 2
+p1_misses = 0 #global variable to represent player 1 misses on p2 board
+p1_hits = 0 #global variable to represent player 1 hits on p2 board
+p1_sunk = 0 #global variable to represent player 1 ships sunk on p2 board
+p2_misses = 0 #global variable to represent player 2 misses on p1 board
+p2_hits = 0 #global variable to represent player 2 hits on p1 board
+p2_sunk = 0 #global variable to represent player 2 ships sunk on p1 board
 
 class Board: 
     def __init__(self, player_num):
@@ -258,7 +264,7 @@ def is_valid_coordinate(coordinate):
     # Otherwise, coordinate is valid 
     return True
 
-def two_player_game()
+def two_player_game():
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
@@ -322,7 +328,7 @@ def two_player_game()
                     gameOver = True # Mark game as over using flag
                     break
 
-def one_player_game()
+def one_player_game():
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
