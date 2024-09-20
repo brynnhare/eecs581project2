@@ -425,10 +425,13 @@ class Opponent:
 
 
 def one_player_game():
+    difficulty = int(input("Do you want an easy(1), medium(2), or hard(3) opponent?" )) # need to add error detection here
+
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
     currentplayer = SwitchPlayers() # Object that controls who the current player is
+    aiplayer = Opponent()
 
     # Start game
     startGame = Game(boards, ships, currentplayer)
@@ -436,8 +439,8 @@ def one_player_game():
     # Set up board for player 1
     startGame.game_setup(0)
 
-    # Set up board for player 2
-    startGame.game_setup(1)
+    # Set up board for ai player
+    aiplayer.game_setup() # make sure to put in the boards array
 
     # Main game loop to be repeated until there is a winner
     gameOver = False # Flag for if game is over (initialize to False)
@@ -446,37 +449,50 @@ def one_player_game():
     # Loop until game is over 
     while not gameOver:
         player_continue = True
-        currentplayer.begin_turn() # Start the next turn
-
         # Keep track of boards
         currentboard = currentplayer.player_num - 1 # Keep track of current player's board
         if currentboard == 0: # Keep track of the opponents board
             opponentboard = 1
         else:
             opponentboard = 0
-
-        # For current player to take turn and fire 
-        boards[currentboard].display_board() # Display current player's board
+        
         while player_continue: 
-            boards[opponentboard].display_opponent_board() # Display their opponents board
+            if currentplayer.player_num == 1: # if it is the real person
+                # currentplayer.begin_turn() # Start the next turn
+                print("It is your turn")
+                # For current player to take turn and fire 
+                boards[currentboard].display_board() # Display current player's board
+                boards[opponentboard].display_opponent_board() # Display their opponents board
 
-            # Guess coordinate to fire 
-            while True:
-                guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
-                if is_valid_coordinate(guess_coordinate):
-                    break  # Exit the loop if coordinate user chose is valid 
-                # Prompt until valid coordinate is inputted 
+                # Guess coordinate to fire 
+                while True:
+                    guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
+                    if is_valid_coordinate(guess_coordinate):
+                        break  # Exit the loop if coordinate user chose is valid 
+                    # Prompt until valid coordinate is inputted 
+                    else:
+                        print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
+
+                # Fire 
+                fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
+            else:
+                if difficulty == 1:
+                    fire = aiplayer.fire_easy()
+                elif difficulty == 2:
+                    fire = aiplayer.fire_medium()
                 else:
-                    print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
-
-            # Fire 
-            fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
+                    fire = aiplayer.fire_hard()
             # MISS
             if fire == 0: # If output is 0, it's a MISS
                 print("MISS")
                 boards[opponentboard].display_opponent_board() # Display board after miss
                 player_continue = False # Break loop for next player by changing flag
-                currentplayer.end_turn() # End turn
+                if currentplayer.player_num == 1:
+                    currentplayer.end_turn() # End turn
+                else:
+                    print("End of player 2's turn")
+                    currentplayer.change()
+
             # HIT
             elif fire == 1: # If output is 1, it's a HIT
                 print("HIT") # If hit, continue in loop for player to continue turn 
