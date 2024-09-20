@@ -9,6 +9,8 @@ Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Jo
 Creation date: 9/4/2024
 '''
 
+import random # Use random library for AI opponent 
+
 player1 = 1 #global variable to represent player 1
 player2 = 2 #global variable to represent player 2
 
@@ -258,7 +260,7 @@ def is_valid_coordinate(coordinate):
     # Otherwise, coordinate is valid 
     return True
 
-def two_player_game()
+def two_player_game():
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
@@ -322,7 +324,24 @@ def two_player_game()
                     gameOver = True # Mark game as over using flag
                     break
 
-def one_player_game()
+class Opponent:
+    def __init__(self):
+        pass
+
+    def game_setup(self): # Place ships for AI opponent's board 
+        pass
+
+    def fire_easy(self): # Fire at random coordinates on the board
+        pass
+
+    def fire_medium(self): # Fire at random coordinates until a ship is hit, then hit orthogonally adjacent until ship is sunk
+        pass
+
+    def fire_hard(self): # Fire at all coordinates that contain a ship
+        pass
+
+
+def one_player_game():
     # Initialize the boards, ships, and players
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
