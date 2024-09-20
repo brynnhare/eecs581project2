@@ -300,12 +300,12 @@ def is_valid_coordinate(coordinate):
 
 def two_player_game():
     # Initialize the boards, ships, and players
-    global p1_misses
-    global p1_hits
-    global p1_sunk
-    global p2_misses
-    global p2_hits
-    global p2_sunk
+    global p1_misses #make the global variable useable 
+    global p1_hits #make the global variable useable 
+    global p1_sunk #make the global variable useable 
+    global p2_misses #make the global variable useable 
+    global p2_hits #make the global variable useable 
+    global p2_sunk #make the global variable useable 
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
     currentplayer = SwitchPlayers() # Object that controls who the current player is
@@ -355,10 +355,10 @@ def two_player_game():
             # MISS
             if fire == 0: # If output is 0, it's a MISS
                 print("MISS")
-                if currentplayer.player_num == 1: 
-                    p1_misses += 1
-                if currentplayer.player_num == 2:
-                    p2_misses += 1
+                if currentplayer.player_num == 1: #adjust scoreboard
+                    p1_misses += 1 #adjust scoreboard
+                if currentplayer.player_num == 2:#adjust scoreboard
+                    p2_misses += 1 #adjust scoreboard
                 boards[opponentboard].display_opponent_board() # Display board after miss
                 player_continue = False # Break loop for next player by changing flag
                 scoreboard()
@@ -366,19 +366,19 @@ def two_player_game():
             # HIT
             elif fire == 1: # If output is 1, it's a HIT
                 print("HIT") # If hit, continue in loop for player to continue turn 
-                if currentplayer.player_num == 1: 
-                    p1_hits += 1
-                if currentplayer.player_num == 2:
-                    p2_hits += 1
+                if currentplayer.player_num == 1: #adjust scoreboard
+                    p1_hits += 1 #adjust scoreboard
+                if currentplayer.player_num == 2: #adjust scoreboard
+                    p2_hits += 1 #adjust scoreboard
             # Sinking a battleship 
             else:
                 print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
-                if currentplayer.player_num == 1: 
-                    p1_hits += 1
-                    p1_sunk += 1
-                if currentplayer.player_num == 2:
-                    p2_hits += 1
-                    p2_sunk += 1
+                if currentplayer.player_num == 1:  #adjust scoreboard
+                    p1_hits += 1 #adjust scoreboard
+                    p1_sunk += 1 #adjust scoreboard
+                if currentplayer.player_num == 2: #adjust scoreboard
+                    p2_hits += 1 #adjust scoreboard
+                    p2_sunk += 1 #adjust scoreboard
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True # Mark game as over using flag
