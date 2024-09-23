@@ -349,7 +349,8 @@ def two_player_game():
             while True:
                 guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
                 if is_valid_coordinate(guess_coordinate):
-                    break  # Exit the loop if coordinate user chose is valid 
+                        if boards[opponentboard].is_empty(int(guess_coordinate[1])-1, ord(guess_coordinate[0].lower()) - 97):
+                            break  # Exit the loop if coordinate user chose is valid 
                 # Prompt until valid coordinate is inputted 
                 else:
                     print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
