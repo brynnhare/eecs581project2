@@ -561,7 +561,7 @@ def one_player_game():
 
                 # Fire 
                 fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
-            else:
+            if currentplayer.player_num == 2:
                 if difficulty == 1:
                     fire = aiplayer.fire_easy(boards[opponentboard], ships[opponentboard])
                 elif difficulty == 2:
