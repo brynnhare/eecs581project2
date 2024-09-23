@@ -81,6 +81,7 @@ class Board:
         if self.board[row][column] == "~": # if there is not a ship placed yet
             return True
         else:
+            print("You have already guessed that spot. Please try again.") # if there is a ship there, let the user know
             return False #already a ship in that spot
 
     def is_valid(self, row, column):
@@ -176,6 +177,7 @@ class Board:
             guess_coordinate[1] = int(guess_coordinate[1])
         
         target_value = self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97]
+
         if isinstance(target_value, int): # is a ship
             """
             TODO: the logic below will give an IndexError: list index out of range if A1 is guessed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -485,7 +487,10 @@ class AIOpponent:
         letter = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) # Randomly select column
         number = random.choice(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']) # Randomly select row 
         guess_coordinate = letter + number # Location is random row and column together to form coordinate
-        fire = board.fire(guess_coordinate, ship) # Fire at random coordinate
+        try:
+            fire = board.fire(guess_coordinate, ship) # Fire at random coordinate
+        except:
+            return self.fire_easy(board, ship)
         print(f"AI fires at {guess_coordinate.upper()}!")
         return fire # Return AI's guess and result of firing
 
@@ -554,14 +559,15 @@ def one_player_game():
                 while True:
                     guess_coordinate = input("Input the coordinate you want to fire at (e.g., A5 or A10): ").upper()
                     if is_valid_coordinate(guess_coordinate):
-                        break  # Exit the loop if coordinate user chose is valid 
+                        if boards[opponentboard].is_empty(int(guess_coordinate[1])-1, ord(guess_coordinate[0].lower()) - 97):
+                            break  # Exit the loop if coordinate user chose is valid 
                     # Prompt until valid coordinate is inputted 
                     else:
                         print("Invalid coordinate! Please enter a valid coordinate (e.g., A5 or A10).") 
 
                 # Fire 
                 fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
-            else:
+            if currentplayer.player_num == 2:
                 if difficulty == 1:
                     fire = aiplayer.fire_easy(boards[opponentboard], ships[opponentboard])
                 elif difficulty == 2:
