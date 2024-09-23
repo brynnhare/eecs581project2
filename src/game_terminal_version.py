@@ -642,7 +642,7 @@ class Game:
         # Confirm the end of current player's setup turn and make opponent the new current player
         self.currentplayer.end_turn()
 
-def scoreboard(): 
+def scoreboard(): #function to display the scoreboard
     board = (f' __________ __________\n'
             f'| Player 1 | Player 2 |\n'
             f'|__________|__________|\n'
@@ -650,13 +650,13 @@ def scoreboard():
             f'|Hits: {p1_hits}   |Hits {p2_hits}    |\n'
             f'|Sinks: {p1_sunk}  |Sinks: {p2_sunk}  |\n'
             f'|__________|__________|\n')
-    print(board)
+    print(board) #print the board
 
 
 if __name__ == '__main__':
     # ask if it will be a two player game or an ai game
     while True:
-        player_count = int(input("How many players do you have : "))
+        player_count = int(input("How many players do you have: "))
         if player_count == 2:
             two_player_game()
             break
