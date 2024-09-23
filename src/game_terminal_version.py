@@ -567,7 +567,7 @@ def one_player_game():
 
                 # Fire 
                 fire = boards[opponentboard].fire(guess_coordinate, ships[opponentboard]) # Fire and store output
-            else:
+            if currentplayer.player_num == 2:
                 if difficulty == 1:
                     fire = aiplayer.fire_easy(boards[opponentboard], ships[opponentboard])
                 elif difficulty == 2:
@@ -642,8 +642,67 @@ class Game:
         # Place each of the player's ships
         for ship in ship_types:
             # TODO: Implement actual autonomous ship placement
-            self.boards[player_num].place_ships(ship)
-            self.boards[player_num].display_board() # Display what the updated board looks like after a ship is placed 
+
+            orientation = random.choice(["h", "v"]) # Randomly select if orientation is horizontal or vertical 
+            if ship[0] == 1: #if ship is horizontal, the other dimension will be the ship size
+                ship_num = ship[1] # keeping track of the ship size as the ship number for use in sink detection
+            else:
+                ship_num = ship[0]
+            if orientation == "v": #swap ship coordinates if verticle to 
+                temp = ship[0]
+                ship[0] = ship[1]
+                ship[1] == temp
+
+            letter = random.choice('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j') # Randomly select column
+            number = random.choice(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) # Randomly select row 
+            location = letter + number # Location is random row and column together to form coordinate 
+
+            occupied_spots = [] # Initialize list for occupied spots 
+
+        # TO DO: Checking if AI ship's placing is valid 
+        # To check if AI player's ship placement is valid (within bounds and no overlap):
+        #   Initialize empty list that will store where a ship segment is on the board
+        #   After placing the first ship for the AI's board (size 1 default), record the coordinate that is now occupied
+        #   Then, when next ship (size 2) is being placed:
+        #       AI will randomly generate a coordinate
+        #       If the ship was VERTICAL:
+        #           Check if selected coordinate and coordinate BELOW are within bounds and unoccupied
+        #       If the ship was HORIZONTAL:
+        #           Check if selected coordinate and coordinate to its RIGHT are within bounds and unoccupied 
+        #   Repeat for proceeding sizes (size 3 checks next 2 coordinates below/right, size 4 checks next 3 coordinates below/right, size 5 checks next 4 coordinates below/right)
+
+        #     try: 
+        #         if ship[0] == 1: #horizontal?
+        #             ship_size = ship[1]
+        #             for i in range(ship[1]): # add a mark for each of the ship units
+        #                 if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
+        #                     self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+        #                     location[0] = chr(ord(location[0]) + 1)
+        #                 else: 
+        #                     for row in range(10):
+        #                         for col in range(10):
+        #                             if self.board[row][col] == ship_num:
+        #                                 self.board[row][col] = "~"
+        #                     raise Exception("invalid loction")
+
+        #         else: #vertical?
+        #             ship_size = ship[0]
+        #             for i in range(ship[0]): # add a mark for each of the ship units
+        #                 if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
+        #                     self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
+        #                     location[1] = location[1]+1
+        #                 else:
+        #                     for row in range(10):
+        #                         for col in range(10):
+        #                             if self.board[row][col] == ship_num:
+        #                                 self.board[row][col] = "~"
+        #                     raise Exception("invalid loction")
+        #         invalid_location = False
+        #     except: 
+        #         print("That location is not valid")
+
+            #self.boards[player_num].place_ships(ship)
+            #self.boards[player_num].display_board() # Display what the updated board looks like after a ship is placed 
 
         # Confirm the end of current player's setup turn and make opponent the new current player
         self.currentplayer.end_turn()
