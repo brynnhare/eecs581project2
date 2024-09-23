@@ -642,7 +642,7 @@ class Game:
                 ship_num = ship[1] # keeping track of the ship size as the ship number for use in sink detection
             else:
                 ship_num = ship[0]
-            if orientation == "v": #swap ship coordinates if verticle to 
+            if orientation == "v": # Swap ship coordinates if vertical 
                 temp = ship[0]
                 ship[0] = ship[1]
                 ship[1] == temp
@@ -652,6 +652,10 @@ class Game:
             location = letter + number # Location is random row and column together to form coordinate 
 
             occupied_spots = [] # Initialize list for occupied spots 
+
+            if ship[0] == 1: # Horizontal
+                ship_size = ship[1]
+                
 
         # TO DO: Checking if AI ship's placing is valid 
         # To check if AI player's ship placement is valid (within bounds and no overlap):
