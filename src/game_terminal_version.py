@@ -1,12 +1,12 @@
 #! python3
 # game loop and  all core logic
 '''
-Program: Battleship
-Description: This program will be a functional two player game of battleship. This
-    file contains the main game loop and core logic.
+Program: Battleship with AI
+Description: This program will be a functional two player game of battleship. This program also has an AI component of the 
+    game with three game modes. There is also a scoreboard that will be displayed. This file contains the main game loop and core logic.
 Output: A game of battleship played in the terminal.
 Authors: Brynn Hare, Micah Borghese, Katelyn Accola, Nora Manolescu, and Kyle Johnson
-Creation date: 9/4/2024
+Creation date: 9/19/2024
 '''
 
 import random # Use random library for AI opponent 
