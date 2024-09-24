@@ -462,30 +462,82 @@ def two_player_game():
 
 class AIOpponent:
     def __init__(self):
-        pass
+        self.last_hit = None  # To store the last hit coordinates
+        self.target_ship_coords = []  # To track subsequent coordinates to hit after the first hit
+        self.hits_on_current_ship = []  # To track all hits on the current ship
 
     def fire_easy(self, board, ship):
         """
-        Fire at random coordinates on the board
-        return 0 for miss, 1 for hit, and 2 for a sink
+        Fire at random coordinates on the board.
+        Return 0 for miss, 1 for hit, and 2 for a sink.
         """
-        # generate random coordinates
-        letter = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) # Randomly select column
-        number = random.choice(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']) # Randomly select row 
-        guess_coordinate = letter + number # Location is random row and column together to form coordinate
+        # Generate random coordinates
+        letter = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
+        number = random.choice(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+        guess_coordinate = letter + number
+        
         try:
-            fire = board.fire(guess_coordinate, ship) # Fire at random coordinate
+            fire_result = board.fire(guess_coordinate, ship)
         except:
             return self.fire_easy(board, ship)
+        
         print(f"AI fires at {guess_coordinate.upper()}!")
-        return fire # Return AI's guess and result of firing
+        return fire_result  # Return AI's guess and result of firing
 
-    def fire_medium(self, board, ship): 
+    def fire_medium(self, board, ship):
         """
-        Fire at random coordinates until a ship is hit, then hit orthogonally adjacent until ship is sunk
-        return 0 for miss, 1 for hit, and 2 for a sink
+        Fire at random coordinates until a ship is hit, then target orthogonally adjacent cells until the ship is sunk.
+        Return 0 for miss, 1 for hit, and 2 for a sink.
         """
-        pass
+        guess_coordinate = None  # Initialize to prevent unbound error
+        if self.target_ship_coords:
+            # Continue targeting adjacent cells
+            guess_coordinate = self.target_ship_coords.pop(0)
+            fire_result = board.fire(guess_coordinate, ship)
+            print(f"AI fires at {guess_coordinate.upper()}!")
+            
+            if fire_result == 1:
+                self.hits_on_current_ship.append(guess_coordinate)
+                self.add_adjacent_targets(guess_coordinate, board)  # Add more adjacent targets
+            elif fire_result == 2:
+                self.reset_after_sink()  # Reset after sinking a ship
+            
+            return fire_result
+        else:
+            # Fire randomly if no ship is currently targeted
+            fire_result = self.fire_easy(board, ship)
+            
+            if fire_result == 1:
+                self.last_hit = guess_coordinate
+                self.hits_on_current_ship.append(guess_coordinate)
+                self.add_adjacent_targets(guess_coordinate, board)  # Add adjacent targets to hit
+                
+            elif fire_result == 2:
+                self.reset_after_sink()  # Reset after sinking a ship
+                
+            return fire_result
+
+    def add_adjacent_targets(self, coord, board):
+        """
+        Add orthogonally adjacent ship coordinates to target after a hit.
+        """
+        letter, number = coord[0], int(coord[1:])
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
+        for d_row, d_col in directions:
+            new_letter = chr(ord(letter) + d_row)
+            new_number = number + d_col
+            new_coord = new_letter + str(new_number)
+            if 'a' <= new_letter <= 'j' and 1 <= new_number <= 10:  # Ensure valid coordinates
+                if board.is_valid_fire(new_coord):  # Check if the new coordinate is a valid target
+                    self.target_ship_coords.append(new_coord)
+
+    def reset_after_sink(self):
+        """
+        Reset tracking variables after sinking a ship.
+        """
+        self.last_hit = None
+        self.target_ship_coords = []
+        self.hits_on_current_ship = []
 
     def fire_hard(self, board, ship): 
         """
@@ -500,7 +552,6 @@ class AIOpponent:
                     fire = board.fire(guess_coordinate, ship) # Fire at random coordinate
                     print(f"AI fires at {guess_coordinate.upper()}!")
                     return fire # Return AI's guess and result of firing
-
 
 
 def one_player_game():
