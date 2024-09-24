@@ -88,7 +88,7 @@ class Board:
         """
         Check if spot is valid (spot is empty and within range)
         """
-        if row <= 10 and column <= 10 :#and self.is_empty(row, column): # checking if spot is within range and then if it is empty
+        if row <= 10 and column <= 10 and self.is_empty(row, column): # checking if spot is within range and then if it is empty
             return True
         else:
             return False 
