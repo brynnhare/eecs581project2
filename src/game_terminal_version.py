@@ -170,15 +170,15 @@ class Board:
         return 0 for miss, 1 for hit, and 2 for a sink
         """
         if len(guess_coordinate) == 3:
-            guess_coordinate = list(guess_coordinate) # store as list
+            guess_coordinate = list(guess_coordinate) # Store as list
             guess_coordinate[1] = 10
         else:
-            guess_coordinate = list(guess_coordinate) # store as list
+            guess_coordinate = list(guess_coordinate) # Store as list
             guess_coordinate[1] = int(guess_coordinate[1])
         
         target_value = self.board[int(guess_coordinate[1])-1][ord(guess_coordinate[0].lower()) - 97]
 
-        if target_value == "." or target_value == "X": # if the spot has already been guessed
+        if target_value == "." or target_value == "X": # If the spot has already been guessed
             print("You have already guessed that spot. Please try again.")
             return 3
 
@@ -191,7 +191,7 @@ class Board:
             if ship.remaining_units[target_value-1] == 0: # ship is sunk
                 return 2
             else:
-                return 1 # hit but no sink
+                return 1 # Hit but no sink
         else:
             self.board[guess_coordinate[1]-1][ord(guess_coordinate[0].lower()) - 97] = "." #mark board with a . 
             return 0
@@ -201,8 +201,10 @@ class Board:
         """
         return true if the board has no more unsunk ships, false otherwise
         """
+        # Iterate over each segment on board to see if board has any remaining ships
         for rows in self.board:
             for space in rows:
+                # Check if there is a ship
                 if isinstance(space, int):
                     return False
         return True
@@ -707,7 +709,8 @@ class Game:
 
         self.currentplayer.end_turn()
 
-def scoreboard(): #function to display the scoreboard
+# Function to display the scoreboard
+def scoreboard(): 
     board = (f' __________ __________\n'
             f'| Player 1 | Player 2 |\n'
             f'|__________|__________|\n'
@@ -715,11 +718,13 @@ def scoreboard(): #function to display the scoreboard
             f'|Hits: {p1_hits}   |Hits {p2_hits}    |\n'
             f'|Sinks: {p1_sunk}  |Sinks: {p2_sunk}  |\n'
             f'|__________|__________|\n')
-    print(board) #print the board
+    
+    # Print the board
+    print(board) 
 
 
 if __name__ == '__main__':
-    # ask if it will be a two player game or an ai game
+    # Ask if it will be a two player game or an ai game
     while True:
         player_count = int(input("How many players do you have: "))
         if player_count == 2:
