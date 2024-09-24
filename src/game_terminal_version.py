@@ -207,10 +207,15 @@ class Board:
                     return False
         return True
     
-    def ai_place_ships(self, ship_types):
+    def ai_place_ships(self, ship_types, shipobject):
         occupied_spots = [] # Initialize list for occupied spots
         # Place each of the player's ships
         for ship in ship_types:
+            if ship[0] == 1:
+                ship_size = ship[1]
+            else:
+                ship_size = ship[0]
+            shipobject.remaining_units.append(ship_size)
             # TODO: Implement actual autonomous ship placement
             
             orientation = random.choice(["h", "v"]) # Randomly select if orientation is horizontal or vertical 
@@ -631,7 +636,7 @@ class Game:
         self.ships[player_num].num_ships = self.ships[player_num - 1].num_ships # Get the number of ships the AI will have from the other player's setup
         ship_types = self.ships[player_num - 1].ship_types # Get the ship types the AI will have from the other player's setup
 
-        self.boards[player_num].ai_place_ships(ship_types)
+        self.boards[player_num].ai_place_ships(ship_types, self.ships[1])
         # self.boards[player_num].display_board()     #testing print
 
         self.currentplayer.end_turn()
