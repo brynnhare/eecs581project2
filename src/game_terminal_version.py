@@ -480,20 +480,27 @@ class AIOpponent:
         print(f"AI fires at {guess_coordinate.upper()}!")
         return fire # Return AI's guess and result of firing
 
-    def fire_medium(self): 
+    def fire_medium(self, board, ship): 
         """
         Fire at random coordinates until a ship is hit, then hit orthogonally adjacent until ship is sunk
         return 0 for miss, 1 for hit, and 2 for a sink
         """
         pass
 
-    def fire_hard(self): 
+    def fire_hard(self, board, ship): 
         """
         Fire at all coordinates that contain a ship
         This function should recusively fire at all coordinates that contain a ship until the entire ship is sunk
         return 2 for a sink, since all hits will be hits
         """
-        pass
+        for row in range(10):
+            for col in range(10):
+                if isinstance(board.board[row][col], int): #if it is a ship
+                    guess_coordinate = chr(col+97) + str(row+1)
+                    fire = board.fire(guess_coordinate, ship) # Fire at random coordinate
+                    print(f"AI fires at {guess_coordinate.upper()}!")
+                    return fire # Return AI's guess and result of firing
+
 
 
 def one_player_game():
@@ -557,9 +564,9 @@ def one_player_game():
                 if difficulty == 1:
                     fire = aiplayer.fire_easy(boards[opponentboard], ships[opponentboard])
                 elif difficulty == 2:
-                    fire = aiplayer.fire_medium()
+                    fire = aiplayer.fire_medium(boards[opponentboard], ships[opponentboard])
                 else:
-                    fire = aiplayer.fire_hard()
+                    fire = aiplayer.fire_hard(boards[opponentboard], ships[opponentboard])
             # MISS
             if fire == 0: # If output is 0, it's a MISS
                 player_continue = False # Break loop for next player by changing flag
@@ -574,7 +581,7 @@ def one_player_game():
             # HIT
             elif fire == 1: # If output is 1, it's a HIT
                 print("HIT") # If hit, continue in loop for player to continue turn 
-            else:
+            elif fire == 2:
                 print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
