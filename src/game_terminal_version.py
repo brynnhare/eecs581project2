@@ -244,23 +244,7 @@ class Board:
                             break
             location = [letter,number] # Location is random row and column together to form coordinate          
 
-
-
-                
-
-        # TO DO: Checking if AI ship's placing is valid 
-        # To check if AI player's ship placement is valid (within bounds and no overlap):
-        #   Initialize empty list that will store where a ship segment is on the board
-        #   After placing the first ship for the AI's board (size 1 default), record the coordinate that is now occupied
-        #   Then, when next ship (size 2) is being placed:
-        #       AI will randomly generate a coordinate
-        #       If the ship was VERTICAL:
-        #           Check if selected coordinate and coordinate BELOW are within bounds and unoccupied
-        #       If the ship was HORIZONTAL:
-        #           Check if selected coordinate and coordinate to its RIGHT are within bounds and unoccupied 
-        #   Repeat for proceeding sizes (size 3 checks next 2 coordinates below/right, size 4 checks next 3 coordinates below/right, size 5 checks next 4 coordinates below/right)
- 
-            if ship[0] == 1: #horizontal?
+            if ship[0] == 1: #horizontal
                 ship_size = ship[1]
                 for i in range(ship[1]): # add a mark for each of the ship units
                     if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
@@ -275,7 +259,7 @@ class Board:
                                     self.board[row][col] = "~"
                           
 
-            else: #vertical?
+            else: #vertical
                 ship_size = ship[0]
                 for i in range(ship[0]): # add a mark for each of the ship units
                     if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
@@ -641,7 +625,7 @@ class Game:
         ship_types = self.ships[player_num - 1].ship_types # Get the ship types the AI will have from the other player's setup
 
         self.boards[player_num].ai_place_ships(ship_types)
-        self.boards[player_num].display_board()     #testing print
+        # self.boards[player_num].display_board()     #testing print
 
         self.currentplayer.end_turn()
 
