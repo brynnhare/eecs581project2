@@ -208,65 +208,80 @@ class Board:
         return True
     
     def ai_place_ships(self, ship_types, shipobject):
-        occupied_spots = [] # Initialize list for occupied spots
-        # Place each of the player's ships
+        # Initialize list for occupied spots
+        occupied_spots = [] 
+
+        # Place each of the ai player's ships
         for ship in ship_types:
             if ship[0] == 1:
                 ship_size = ship[1]
             else:
                 ship_size = ship[0]
             shipobject.remaining_units.append(ship_size)
-            # TODO: Implement actual autonomous ship placement
             
-            orientation = random.choice(["h", "v"]) # Randomly select if orientation is horizontal or vertical 
-            if ship[0] == 1: #if ship is horizontal, the other dimension will be the ship size
-                ship_num = ship[1] # keeping track of the ship size as the ship number for use in sink detection
+            # Randomly select if orientation is horizontal or vertical 
+            orientation = random.choice(["h", "v"])
+
+            # If ship is horizontal, the other dimension will be the ship size
+            if ship[0] == 1: 
+                ship_num = ship[1] # Keeping track of the ship size as the ship number for use in sink detection
             else:
                 ship_num = ship[0]
-            if orientation == "v": # Swap ship coordinates if vertical 
+
+            # If ship is vertical, swap ship coordinates
+            if orientation == "v": 
                 temp = ship[0]
                 ship[0] = ship[1]
                 ship[1] == temp
+
             invalid = True
-            letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-            numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'] # Column indices
+            numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # Row indices 
             while invalid: 
                 letter = random.choice(letters[:len(letters)-ship_num + 1]) # Randomly select column with bounds
                 number = random.choice(numbers[:len(numbers)-ship_num + 1]) # Randomly select row with bounds
-                #the following section prevents placing a ship on a ship that is already there
+
+                # The following section prevents placing a ship on a ship that is already there
                 for i in range(0,ship_num+1):
+                    # Checking for vertical ship
                     if orientation == "v":
                         if [(ord(letter) -97), number + i] not in occupied_spots:
                             invalid = False
                         else:
                             invalid = True 
                             break
+                    # Checking for horizontal ship 
                     if orientation == "h":
                         if [(ord(letter) -97) + i, number] not in occupied_spots:
                             invalid = False
                         else:
                             invalid = True 
                             break
-            location = [letter,number] # Location is random row and column together to form coordinate          
 
-            if ship[0] == 1: #horizontal
+            # Location is random row and column together to form coordinate    
+            location = [letter,number]       
+
+            # Placing the ship 
+            # Horizontal ship placement 
+            if ship[0] == 1: 
                 ship_size = ship[1]
-                for i in range(ship[1]): # add a mark for each of the ship units
+                # Add a mark for each of the ship units
+                for i in range(ship[1]): 
                     if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
                         self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                         occupied_spots.append([(ord(location[0].lower()))-97, (location[1]-1)]) #format of letter, number (letter is in number form though)
                         location[0] = chr(ord(location[0]) + 1)
-
                     else: 
                         for row in range(10):
                             for col in range(10):
                                 if self.board[row][col] == ship_num:
                                     self.board[row][col] = "~"
-                          
 
-            else: #vertical
+            # Vertical ship placement 
+            else: 
                 ship_size = ship[0]
-                for i in range(ship[0]): # add a mark for each of the ship units
+                # Add a mark for each of the ship units
+                for i in range(ship[0]): 
                     if self.is_valid((location[1]-1),(ord(location[0].lower()) - 97)):
                         self.board[location[1]-1][ord(location[0].lower()) - 97] = ship_size
                         occupied_spots.append([(ord(location[0].lower()))-97, (location[1]-1)]) #format of letter, number (letter is in number form though)
