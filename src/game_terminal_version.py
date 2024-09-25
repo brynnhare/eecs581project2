@@ -585,6 +585,12 @@ def one_player_game():
             print("Invalid difficulty. Please enter 1, 2, or 3.")
 
     # Initialize the boards, ships, and players
+    global p1_misses #make the global variable useable 
+    global p1_hits #make the global variable useable 
+    global p1_sunk #make the global variable useable 
+    global p2_misses #make the global variable useable 
+    global p2_hits #make the global variable useable 
+    global p2_sunk #make the global variable useable 
     boards = [Board(player1), Board(player2)] # Store boards in an array to access easier
     ships = [Ships(player1), Ships(player2)] # Store ships in an array 
     currentplayer = SwitchPlayers() # Object that controls who the current player is
@@ -617,6 +623,7 @@ def one_player_game():
             if currentplayer.player_num == 1: # if it is the real person
                 # currentplayer.begin_turn() # Start the next turn
                 print("It is your turn")
+                scoreboard() #display scoreboard
                 # For current player to take turn and fire 
                 boards[currentboard].display_board() # Display current player's board
                 boards[opponentboard].display_opponent_board() # Display their opponents board
@@ -645,20 +652,34 @@ def one_player_game():
                 player_continue = False # Break loop for next player by changing flag
                 if currentplayer.player_num == 1:
                     print("MISS")
+                    p1_misses += 1 #adjust scoreboard
                     boards[opponentboard].display_opponent_board() # Display board after miss
+                    scoreboard()
                     currentplayer.end_turn() # End turn
                 else:
+                    p2_misses += 1 #adjust scoreboard
                     print("End of AI player's turn")
                     currentplayer.change()
 
             # HIT
             elif fire == 1: # If output is 1, it's a HIT
                 print("HIT") # If hit, continue in loop for player to continue turn 
+                if currentplayer.player_num == 1: #adjust scoreboard
+                    p1_hits += 1 #adjust scoreboard
+                if currentplayer.player_num == 2: #adjust scoreboard
+                    p2_hits += 1 #adjust scoreboard
             elif fire == 2:
                 print("SUNK BATTLESHIP") # If 2 is returned, ship is sunk
+                if currentplayer.player_num == 1:  #adjust scoreboard
+                    p1_hits += 1 #adjust scoreboard
+                    p1_sunk += 1 #adjust scoreboard
+                if currentplayer.player_num == 2: #adjust scoreboard
+                    p2_hits += 1 #adjust scoreboard
+                    p2_sunk += 1 #adjust scoreboard
                 if boards[opponentboard].game_over():
                     print(f"GAME OVER: Player {currentplayer.player_num} wins!")
                     gameOver = True # Mark game as over using flag
+                    scoreboard()
                     break
 
 
