@@ -362,7 +362,10 @@ class SwitchPlayers:
 
         # Switch players after confirming turn is over 
         self.change() 
-        os.system('cls' if os.name == 'nt' else 'clear')
+        clear_terminal() # Clear the terminal screen after each turn
+
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear') # clear the terminal screen after each turn
 
 def is_valid_coordinate(coordinate):
     """
