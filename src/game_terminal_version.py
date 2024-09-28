@@ -130,6 +130,9 @@ class Board:
                 location[0] = location[0].lower() #make the letter value lowercase
                 if (location[0] in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']) and (location[1] in range(1,11)): #check that the values are in the correct range
                     invalid_location = False #if they are, break the while loop
+            except KeyboardInterrupt:
+                print("\nThanks for playing! :)")
+                exit()
             except:
                 invalid_location = True
             try: 
@@ -159,6 +162,9 @@ class Board:
                                         self.board[row][col] = "~"
                             raise Exception("invalid loction")
                 invalid_location = False
+            except KeyboardInterrupt:
+                print("\nThanks for playing! :)")
+                exit()
             except: 
                 print("That location is not valid")
 
@@ -750,15 +756,19 @@ def scoreboard():
 if __name__ == '__main__':
     # Ask if it will be a two player game or an ai game
     while True:
-        player_count = int(input("How many players do you have: "))
-        if player_count == 2:
-            two_player_game()
+        try:
+            player_count = int(input("How many players do you have: "))
+            if player_count == 2:
+                two_player_game()
+                break
+            if player_count == 1:
+                one_player_game()
+                break
+            else:
+                print("Invalid number of players. Please enter 1 or 2.")
+        except KeyboardInterrupt:
+            print("Thanks for playing! :)")
             break
-        if player_count == 1:
-            one_player_game()
-            break
-        else:
-            print("Invalid number of players. Please enter 1 or 2.")
     
 
 
