@@ -516,7 +516,6 @@ class AIOpponent:
         return fire_result  # Return AI's guess and result of firing
 
     def fire_medium(self, board, ship):
-        fire_result = None
         guess_coordinate = None
 
         if self.target_ship_coords:
@@ -532,6 +531,7 @@ class AIOpponent:
             elif fire_result == 2:
                 self.reset_after_sink()
             if fire_result == 3:
+                print("You have already guessed that spot. Please try again.")
                 self.fire_medium(board,ship)
             return fire_result
         else:
@@ -552,6 +552,7 @@ class AIOpponent:
             elif fire_result == 2:
                 self.reset_after_sink()
             elif fire_result == 3:
+                print("You have already guessed that spot. Please try again.")
                 self.fire_medium(board,ship)
 
             return fire_result
