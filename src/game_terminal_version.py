@@ -516,11 +516,9 @@ class AIOpponent:
         return fire_result  # Return AI's guess and result of firing
 
     def fire_medium(self, board, ship):
-        """
-        Fire at random coordinates until a ship is hit, then target orthogonally adjacent cells until the ship is sunk.
-        Return 0 for miss, 1 for hit, and 2 for a sink.
-        """
-        guess_coordinate = None  # Initialize to prevent unbound error
+        fire_result = None
+        guess_coordinate = None
+
         if self.target_ship_coords:
             # Continue targeting adjacent cells
             guess_coordinate = self.target_ship_coords.pop(0)
@@ -529,24 +527,31 @@ class AIOpponent:
             
             if fire_result == 1:
                 self.hits_on_current_ship.append(guess_coordinate)
-                self.add_adjacent_targets(guess_coordinate, board)  # Add more adjacent targets
+                if guess_coordinate is not None:
+                    self.add_adjacent_targets(guess_coordinate, board)
             elif fire_result == 2:
-                self.reset_after_sink()  # Reset after sinking a ship
+                self.reset_after_sink()
             
             return fire_result
         else:
-            # Fire randomly if no ship is currently targeted
-            fire_result = self.fire_easy(board, ship)
+            # Generate a random coordinate directly in fire_medium
+            letter = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
+            number = random.choice(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+            guess_coordinate = letter + number
+            
+            print(f"AI fires at {guess_coordinate.upper()}!")
+            fire_result = board.fire(guess_coordinate, ship)  # Fire at the randomly generated coordinate
             
             if fire_result == 1:
                 self.last_hit = guess_coordinate
                 self.hits_on_current_ship.append(guess_coordinate)
-                self.add_adjacent_targets(guess_coordinate, board)  # Add adjacent targets to hit
-                
+                if guess_coordinate is not None:
+                    self.add_adjacent_targets(guess_coordinate, board)
             elif fire_result == 2:
-                self.reset_after_sink()  # Reset after sinking a ship
-                
+                self.reset_after_sink()
+
             return fire_result
+
 
     def add_adjacent_targets(self, coord, board):
         """
@@ -559,7 +564,7 @@ class AIOpponent:
             new_number = number + d_col
             new_coord = new_letter + str(new_number)
             if 'a' <= new_letter <= 'j' and 1 <= new_number <= 10:  # Ensure valid coordinates
-                if board.is_valid_fire(new_coord):  # Check if the new coordinate is a valid target
+                if is_valid_coordinate(new_coord) and new_coord not in self.target_ship_coords:  # Avoid duplicates
                     self.target_ship_coords.append(new_coord)
 
     def reset_after_sink(self):
