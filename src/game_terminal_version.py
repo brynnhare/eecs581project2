@@ -516,7 +516,6 @@ class AIOpponent:
         return fire_result  # Return AI's guess and result of firing
 
     def fire_medium(self, board, ship):
-        fire_result = None
         guess_coordinate = None
 
         if self.target_ship_coords:
@@ -532,7 +531,7 @@ class AIOpponent:
             elif fire_result == 2:
                 self.reset_after_sink()
             if fire_result == 3:
-                self.fire_medium(board,ship)
+                return fire_result
             return fire_result
         else:
             # Generate a random coordinate directly in fire_medium
@@ -699,6 +698,8 @@ def one_player_game():
                     gameOver = True # Mark game as over using flag
                     scoreboard()
                     break
+            elif fire == 3:
+                pass
 
 
 
