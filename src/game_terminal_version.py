@@ -531,7 +531,9 @@ class AIOpponent:
                     self.add_adjacent_targets(guess_coordinate, board)
             elif fire_result == 2:
                 self.reset_after_sink()
-            
+            if fire_result == 3:
+                print("You have already guessed that spot. Please try again.")
+                self.fire_medium(board,ship)
             return fire_result
         else:
             # Generate a random coordinate directly in fire_medium
@@ -541,6 +543,7 @@ class AIOpponent:
             
             print(f"AI fires at {guess_coordinate.upper()}!")
             fire_result = board.fire(guess_coordinate, ship)  # Fire at the randomly generated coordinate
+
             
             if fire_result == 1:
                 self.last_hit = guess_coordinate
@@ -549,6 +552,9 @@ class AIOpponent:
                     self.add_adjacent_targets(guess_coordinate, board)
             elif fire_result == 2:
                 self.reset_after_sink()
+            elif fire_result == 3:
+                print("You have already guessed that spot. Please try again.")
+                self.fire_medium(board,ship)
 
             return fire_result
 
