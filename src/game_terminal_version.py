@@ -532,7 +532,6 @@ class AIOpponent:
             elif fire_result == 2:
                 self.reset_after_sink()
             if fire_result == 3:
-                print("You have already guessed that spot. Please try again.")
                 self.fire_medium(board,ship)
             return fire_result
         else:
@@ -553,7 +552,6 @@ class AIOpponent:
             elif fire_result == 2:
                 self.reset_after_sink()
             elif fire_result == 3:
-                print("You have already guessed that spot. Please try again.")
                 self.fire_medium(board,ship)
 
             return fire_result
