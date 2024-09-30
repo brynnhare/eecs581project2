@@ -2,8 +2,6 @@
 Battleship!
 
 ## Description
-In our game of battleship, player one and player two play on the same device. 
-
 First, `cd` into the `src` folder. The game begins by typing `python3 game_terminal_version.py` into the terminal. 
 
 The player is asked if they would like to play in a 1 or 2 player game. A 1 player game will have the player compete against AI. There are 3 game modes: easy, medium, and hard. In the easy mode the computer fires randomly on the player's board. In the medium mode, the computer randomly fires on the player's board until they hit a ship. Once a ship is hit, the computer strategically fires for each of the following turns until the ship is sunk. In the hard mode, the computer knows where the player's ships are and will sink them all in one turn. 
