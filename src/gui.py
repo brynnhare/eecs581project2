@@ -1,4 +1,7 @@
 # interface and other elements (buttons, menus, etc)
+"""
+    This version of the game ultimately is not used in the final product.
+"""
 import pygame
 
 pygame.init()
